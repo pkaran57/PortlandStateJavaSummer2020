@@ -49,6 +49,7 @@ public class PhoneCallTest {
   public void test_isValidPhoneNumber() {
     Assert.assertTrue(isValidPhoneNumber("555-454-2382"));
 
+    Assert.assertFalse(isValidPhoneNumber(null));
     Assert.assertFalse(isValidPhoneNumber("555454-2382"));
     Assert.assertFalse(isValidPhoneNumber("555-454-238"));
     Assert.assertFalse(isValidPhoneNumber("0-0-0"));
@@ -60,6 +61,7 @@ public class PhoneCallTest {
     Assert.assertTrue(isTimeStampValid("01/15/2020 19:39"));
     Assert.assertTrue(isTimeStampValid("1/2/2020 1:03"));
 
+    Assert.assertFalse(isTimeStampValid(null));
     Assert.assertFalse(isTimeStampValid("01-15-2020 19:39"));
     Assert.assertFalse(isTimeStampValid("1/2/2020"));
     Assert.assertFalse(isTimeStampValid("1:03"));

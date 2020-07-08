@@ -9,8 +9,7 @@ import java.util.regex.Pattern;
 
 public class PhoneCall extends AbstractPhoneCall {
 
-    private static final String DATE_TIME_PATTERN = "M/d/uuuu H:mm";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("M/d/uuuu H:mm");
 
     private final String caller;
     private final String callee;
@@ -25,7 +24,7 @@ public class PhoneCall extends AbstractPhoneCall {
             throw new IllegalArgumentException(String.format("Caller phone number is invalid. Phone numbers should have the form nnn-nnn-nnnn where n is a number 0-9 but got %s", caller));
         }
 
-        if (isValidPhoneNumber(caller)) {
+        if (isValidPhoneNumber(callee)) {
             this.callee = callee;
         } else {
             throw new IllegalArgumentException(String.format("Callee phone number is invalid. Phone numbers should have the form nnn-nnn-nnnn where n is a number 0-9 but got %s", callee));
@@ -34,13 +33,13 @@ public class PhoneCall extends AbstractPhoneCall {
         if(isTimeStampValid(startTime)) {
             this.startTime = startTime;
         } else {
-            throw new IllegalArgumentException(String.format("Start time is invalid. It should be in the following format: %s but got %s", DATE_TIME_PATTERN, startTime));
+            throw new IllegalArgumentException(String.format("Start time is invalid. It should be in the following format: mm/dd/yyyy hh:mm but got %s", startTime));
         }
 
         if(isTimeStampValid(endTime)) {
             this.endTime = endTime;
         } else {
-            throw new IllegalArgumentException(String.format("End time is invalid. It should be in the following format: %s but got %s", DATE_TIME_PATTERN, endTime));
+            throw new IllegalArgumentException(String.format("End time is invalid. It should be in the following format: mm/dd/yyyy hh:mm but got %s", endTime));
         }
     }
 
