@@ -33,7 +33,7 @@ public class Project1 {
                                                             .collect(Collectors.toList());
 
         if (programArguments.size() != 7) {
-          throw new IllegalArgumentException(String.format("Expected a total of 7 arguments of the form: [customer callerNumber calleeNumber start-date start-time end-date end-time] but got [%s]", programArguments.toString()));
+          throw new IllegalArgumentException(String.format("Expected a total of 7 arguments of the form: [customer callerNumber calleeNumber start-date start-time end-date end-time] but got the following %d : %s", programArguments.size(), programArguments.toString().replace(",", "")));
         }
 
         PhoneCall phoneCall = PhoneCall.PhoneCallBuilder.aPhoneCall()

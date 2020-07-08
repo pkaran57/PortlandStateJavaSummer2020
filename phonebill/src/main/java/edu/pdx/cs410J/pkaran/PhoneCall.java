@@ -2,9 +2,15 @@ package edu.pdx.cs410J.pkaran;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 public class PhoneCall extends AbstractPhoneCall {
+
+    private static final String DATE_TIME_PATTERN = "M/d/uuuu H:mm";
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
 
     private final String caller;
     private final String callee;
@@ -16,21 +22,44 @@ public class PhoneCall extends AbstractPhoneCall {
         if (isValidPhoneNumber(caller)) {
             this.caller = caller;
         } else {
-            throw new IllegalArgumentException(String.format("Caller phone number is invalid. Expected a number of format nnn-nnn-nnnn where n is a digit but got %s", caller));
+            throw new IllegalArgumentException(String.format("Caller phone number is invalid. Phone numbers should have the form nnn-nnn-nnnn where n is a number 0-9 but got %s", caller));
         }
 
         if (isValidPhoneNumber(caller)) {
             this.callee = callee;
         } else {
-            throw new IllegalArgumentException(String.format("Callee phone number is invalid. Expected a number of format nnn-nnn-nnnn where n is a digit but got %s", callee));
+            throw new IllegalArgumentException(String.format("Callee phone number is invalid. Phone numbers should have the form nnn-nnn-nnnn where n is a number 0-9 but got %s", callee));
         }
 
-        this.startTime = startTime;
-        this.endTime = endTime;
+        if(isTimeStampValid(startTime)) {
+            this.startTime = startTime;
+        } else {
+            throw new IllegalArgumentException(String.format("Start time is invalid. It should be in the following format: %s but got %s", DATE_TIME_PATTERN, startTime));
+        }
+
+        if(isTimeStampValid(endTime)) {
+            this.endTime = endTime;
+        } else {
+            throw new IllegalArgumentException(String.format("End time is invalid. It should be in the following format: %s but got %s", DATE_TIME_PATTERN, endTime));
+        }
     }
 
     static boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber != null && Pattern.matches("\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d", phoneNumber);
+    }
+
+    static boolean isTimeStampValid(String timestamp) {
+        if (timestamp == null) {
+            return false;
+        }
+
+        try {
+            LocalDate.parse(timestamp, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException dateTimeParseException) {
+            return false;
+        }
+
+       return true;
     }
 
     @Override
