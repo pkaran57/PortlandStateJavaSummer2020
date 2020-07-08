@@ -47,12 +47,12 @@ public class Project1IT extends InvokeMainTestCase {
     public void allArgsPassedCorrectly() {
         MainMethodResult result = invokeMain(PRINT_OPTION, "First Last", "555-555-5556", "666-666-6667", "1/15/2020", "19:39", "02/1/2020", "1:03");
 
-        Assert.assertEquals("First Last's phone bill with 1 phone calls", result.getTextWrittenToStandardOut());
+        Assert.assertEquals("Phone call from 555-555-5556 to 666-666-6667 from 1/15/2020 19:39 to 02/1/2020 1:03", result.getTextWrittenToStandardOut());
         Assert.assertTrue(result.getTextWrittenToStandardError().isEmpty());
 
         result = invokeMain(PRINT_OPTION, "First", "555-555-5556", "666-666-6667", "1/15/2020", "19:39", "02/1/2020", "1:03");
 
-        Assert.assertEquals("First's phone bill with 1 phone calls", result.getTextWrittenToStandardOut());
+        Assert.assertEquals("Phone call from 555-555-5556 to 666-666-6667 from 1/15/2020 19:39 to 02/1/2020 1:03", result.getTextWrittenToStandardOut());
         Assert.assertTrue(result.getTextWrittenToStandardError().isEmpty());
     }
 

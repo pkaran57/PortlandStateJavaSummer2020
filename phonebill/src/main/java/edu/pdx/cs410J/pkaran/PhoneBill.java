@@ -8,11 +8,19 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class representing a phone bill for a given customer and optionally containing details about phone calls
+ */
 public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T> {
 
     private final String customerName;
     private final List<T> phoneCalls;
 
+    /**
+     * all args constructor
+     * @param customerName name of the customer
+     * @param phoneCalls list of phone calls for the phone bill
+     */
     private PhoneBill(String customerName, List<T> phoneCalls) {
         this.customerName = customerName;
         this.phoneCalls = Objects.requireNonNullElseGet(phoneCalls, ArrayList::new);
@@ -34,6 +42,9 @@ public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T>
     }
 
 
+    /**
+     * Builder for the PhoneBill class
+     */
     public static final class PhoneBillBuilder<T extends AbstractPhoneCall> {
         private String customerName;
         private List<T> phoneCalls;
@@ -55,6 +66,10 @@ public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T>
             return this;
         }
 
+        /**
+         * build a PhoneBill class instance
+         * @return an instance of the PhoneBill class
+         */
         public PhoneBill<T> build() {
             return new PhoneBill<T>(customerName, phoneCalls);
         }

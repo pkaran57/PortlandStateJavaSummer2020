@@ -7,6 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
+/**
+ * a class to represent a Phone call make by a caller to a callee and to track the duration of the call
+ */
 public class PhoneCall extends AbstractPhoneCall {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("M/d/uuuu H:mm");
@@ -16,6 +19,14 @@ public class PhoneCall extends AbstractPhoneCall {
     private final String startTime;
     private final String endTime;
 
+    /**
+     * All args constructor which performs validation for all of the parameters. Exception can be thrown if any of the parameters are invalid.
+     *
+     * @param caller caller's number
+     * @param callee callee's number
+     * @param startTime timestamp for when the call started
+     * @param endTime timestamp for when the call ended
+     */
     private PhoneCall(String caller, String callee, String startTime, String endTime) {
 
         if (isValidPhoneNumber(caller)) {
@@ -43,10 +54,20 @@ public class PhoneCall extends AbstractPhoneCall {
         }
     }
 
+    /**
+     * Check if the phone number is valid
+     * @param phoneNumber phone number to check
+     * @return true if valid, false otherwise
+     */
     static boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber != null && Pattern.matches("\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d", phoneNumber);
     }
 
+    /**
+     * Check if the timestamp is valid
+     * @param timestamp timestamp to check
+     * @return true if valid, false otherwise
+     */
     static boolean isTimeStampValid(String timestamp) {
         if (timestamp == null) {
             return false;
@@ -81,6 +102,9 @@ public class PhoneCall extends AbstractPhoneCall {
         return endTime;
     }
 
+    /**
+     * Builder for the PhoneCall class
+     */
     public static final class PhoneCallBuilder {
         private String caller;
         private String callee;
@@ -114,6 +138,10 @@ public class PhoneCall extends AbstractPhoneCall {
             return this;
         }
 
+        /**
+         * build a PhoneCall class instance
+         * @return an instance of the PhoneCall class
+         */
         public PhoneCall build() {
             return new PhoneCall(caller, callee, startTime, endTime);
         }
