@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class Project1 {
 
   static final String READ_ME = "\nStudent name: Karan Patel, Project 1: Designing a Phone Bill Application\n\n" +
-                                "This application generates and optionally prints a Phone Bill which can contain information about a Phone Call.\n\n" +
+                                "This application generates a Phone Bill with a Phone Call and optionally prints information about the Phone Call.\n\n" +
           "Usage: java edu.pdx.cs410J.pkaran.Project1 [options] <args>\n" +
           "\targs are (in this order):\n" +
           "\t\tcustomer - Person whose phone bill we’re modeling\n" +
