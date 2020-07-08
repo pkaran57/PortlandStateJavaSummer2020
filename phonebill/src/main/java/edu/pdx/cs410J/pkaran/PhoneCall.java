@@ -2,6 +2,8 @@ package edu.pdx.cs410J.pkaran;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+import java.util.regex.Pattern;
+
 public class PhoneCall extends AbstractPhoneCall {
 
     private final String caller;
@@ -10,10 +12,25 @@ public class PhoneCall extends AbstractPhoneCall {
     private final String endTime;
 
     private PhoneCall(String caller, String callee, String startTime, String endTime) {
-        this.caller = caller;
-        this.callee = callee;
+
+        if (isValidPhoneNumber(caller)) {
+            this.caller = caller;
+        } else {
+            throw new IllegalArgumentException(String.format("Caller phone number is invalid. Expected a number of format nnn-nnn-nnnn where n is a digit but got %s", caller));
+        }
+
+        if (isValidPhoneNumber(caller)) {
+            this.callee = callee;
+        } else {
+            throw new IllegalArgumentException(String.format("Callee phone number is invalid. Expected a number of format nnn-nnn-nnnn where n is a digit but got %s", callee));
+        }
+
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    static boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber != null && Pattern.matches("\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d", phoneNumber);
     }
 
     @Override

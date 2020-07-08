@@ -9,6 +9,13 @@ import static edu.pdx.cs410J.pkaran.PhoneBill.PhoneBillBuilder;
 
 public class PhoneBillTest {
 
+    private static final PhoneCall PHONE_CALL = PhoneCall.PhoneCallBuilder.aPhoneCall()
+                                                                            .withCaller("555-555-5556")
+                                                                            .withCallee("666-666-6667")
+                                                                            .withStartTime("1/15/2020 19:39")
+                                                                            .withEndTime("02/1/2020 1:03")
+                                                                            .build();
+
     @Test
     public void getCustomer() {
         String customerName = "customer-name";
@@ -20,20 +27,17 @@ public class PhoneBillTest {
     @Test
     public void addPhoneCall() {
         PhoneBill<PhoneCall> phoneBill = PhoneBillBuilder.aPhoneBill().build();
-        PhoneCall phoneCall = PhoneCall.PhoneCallBuilder.aPhoneCall().build();
 
-        phoneBill.addPhoneCall(phoneCall);
+        phoneBill.addPhoneCall(PHONE_CALL);
 
         Assert.assertNotNull(phoneBill.getPhoneCalls());
         Assert.assertEquals(1, phoneBill.getPhoneCalls().size());
-        Assert.assertTrue(phoneBill.getPhoneCalls().contains(phoneCall));
+        Assert.assertTrue(phoneBill.getPhoneCalls().contains(PHONE_CALL));
     }
 
     @Test
     public void getPhoneCalls_callsAdded() {
-        PhoneCall call1 = PhoneCall.PhoneCallBuilder.aPhoneCall().build();
-        PhoneCall call2 = PhoneCall.PhoneCallBuilder.aPhoneCall().build();
-        List<PhoneCall> phoneCalls = List.of(call1, call2);
+        List<PhoneCall> phoneCalls = List.of(PHONE_CALL, PHONE_CALL);
 
         PhoneBill<PhoneCall> phoneBill = PhoneBillBuilder.aPhoneBill().withPhoneCalls(phoneCalls).build();
 

@@ -29,14 +29,28 @@ public class Project1 {
         boolean print = commandLineArguments.contains(PRINT_OPTION);
 
         List<String> programArguments = commandLineArguments.stream()
-                                                            .filter(PROGRAM_OPTIONS::contains)
+                                                            .filter(arg -> !PROGRAM_OPTIONS.contains(arg))
                                                             .collect(Collectors.toList());
 
         if (programArguments.size() != 7) {
           throw new IllegalArgumentException(String.format("Expected a total of 7 arguments of the form: [customer callerNumber calleeNumber start-date start-time end-date end-time] but got [%s]", programArguments.toString()));
         }
 
+        PhoneCall phoneCall = PhoneCall.PhoneCallBuilder.aPhoneCall()
+                                                        .withCaller(programArguments.get(1))
+                                                        .withCallee(programArguments.get(2))
+                                                        .withStartTime(programArguments.get(3) + " " + programArguments.get(4))
+                                                        .withEndTime(programArguments.get(5) + " " + programArguments.get(6))
+                                                        .build();
 
+        PhoneBill<PhoneCall> phoneBill = PhoneBill.PhoneBillBuilder.aPhoneBill()
+                                                        .withCustomerName(programArguments.get(0))
+                                                        .withPhoneCalls(Arrays.asList(phoneCall))
+                                                        .build();
+
+        if (print) {
+          System.out.print(phoneBill);
+        }
       }
     } catch (Exception ex) {
       System.err.print(ex.getMessage());

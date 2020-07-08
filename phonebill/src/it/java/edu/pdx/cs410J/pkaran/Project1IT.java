@@ -4,8 +4,7 @@ import edu.pdx.cs410J.InvokeMainTestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static edu.pdx.cs410J.pkaran.Project1.READ_ME;
-import static edu.pdx.cs410J.pkaran.Project1.READ_ME_OPTION;
+import static edu.pdx.cs410J.pkaran.Project1.*;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -41,6 +40,19 @@ public class Project1IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(READ_ME_OPTION);
 
         Assert.assertEquals(READ_ME, result.getTextWrittenToStandardOut());
+        Assert.assertTrue(result.getTextWrittenToStandardError().isEmpty());
+    }
+
+    @Test
+    public void allArgsPassedCorrectly() {
+        MainMethodResult result = invokeMain(PRINT_OPTION, "First Last", "555-555-5556", "666-666-6667", "1/15/2020", "19:39", "02/1/2020", "1:03");
+
+        Assert.assertEquals("First Last's phone bill with 1 phone calls", result.getTextWrittenToStandardOut());
+        Assert.assertTrue(result.getTextWrittenToStandardError().isEmpty());
+
+        result = invokeMain(PRINT_OPTION, "First", "555-555-5556", "666-666-6667", "1/15/2020", "19:39", "02/1/2020", "1:03");
+
+        Assert.assertEquals("First's phone bill with 1 phone calls", result.getTextWrittenToStandardOut());
         Assert.assertTrue(result.getTextWrittenToStandardError().isEmpty());
     }
 }
