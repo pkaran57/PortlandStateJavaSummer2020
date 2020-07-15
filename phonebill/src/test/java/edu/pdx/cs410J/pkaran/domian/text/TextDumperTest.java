@@ -15,11 +15,11 @@ import static org.junit.Assert.assertTrue;
 
 public class TextDumperTest {
 
-    File outputDirectory = new File("src/test/output");
+    File outputDirectory = new File("src/test/resources/edu/pdx/cs410J/pkaran");
 
     @Test
     public void dump_noPhoneCall() throws IOException {
-        File file = getFile(outputDirectory, "Tom-PhoneBill.txt");
+        File file = getFile(outputDirectory, "Tom-PhoneBill-out.txt");
 
         PhoneBill phoneBillForTom = PhoneBill.PhoneBillBuilder.aPhoneBill()
                 .withCustomerName("Tom")
@@ -39,7 +39,7 @@ public class TextDumperTest {
 
     @Test
     public void dump_onePhoneCall() throws IOException {
-        File file = Paths.get(outputDirectory.toString(), "Jake-PhoneBill.txt").toFile();
+        File file = Paths.get(outputDirectory.toString(), "Jake-PhoneBill-out.txt").toFile();
 
         PhoneCall phoneCall = PhoneCall.PhoneCallBuilder.aPhoneCall()
                 .withCaller("555-555-5556")
@@ -67,7 +67,7 @@ public class TextDumperTest {
 
     @Test
     public void dump_multiplePhoneCalls() throws IOException {
-        File file = Paths.get(outputDirectory.toString(), "Jane-PhoneBill.txt").toFile();
+        File file = Paths.get(outputDirectory.toString(), "Jane-PhoneBill-out.txt").toFile();
 
         PhoneCall phoneCall1 = createPhoneCall("555-555-5556", "666-666-6667", "1/15/2020 19:39", "02/1/2020 1:03");
         PhoneCall phoneCall2 = createPhoneCall("777-555-5556", "666-777-6667", "1/15/2020 19:49", "02/1/2020 1:13");

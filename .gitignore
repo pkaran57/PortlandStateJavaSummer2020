@@ -41,4 +41,6 @@ dependency-reduced-pom.xml
 */app/data/
 
 # Test output directory
-/phonebill/src/test/output/
+/phonebill/src/test/resources/edu/pdx/cs410J/pkaran/Jake-PhoneBill-out.txt
+/phonebill/src/test/resources/edu/pdx/cs410J/pkaran/Jane-PhoneBill-out.txt
+/phonebill/src/test/resources/edu/pdx/cs410J/pkaran/Tom-PhoneBill-out.txt

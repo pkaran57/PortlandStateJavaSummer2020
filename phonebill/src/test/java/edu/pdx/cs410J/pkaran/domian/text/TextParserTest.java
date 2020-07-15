@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class TextParserTest {
 
-    File phoneBillDataDirectory = new File("src/test/resources/PhoneBills");
+    File phoneBillDataDirectory = new File("src/test/resources/edu/pdx/cs410J/pkaran");
 
     @Test
     public void parse_onlyCustomerName() throws ParserException {

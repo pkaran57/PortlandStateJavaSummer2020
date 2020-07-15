@@ -1,1 +1,0 @@
-A file to add output directory to git since empty directories cannot be added to Git.
