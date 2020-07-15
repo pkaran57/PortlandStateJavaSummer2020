@@ -27,7 +27,7 @@ public class TextDumperTest {
         TextDumper textDumper = new TextDumper(outputDirectory.toPath());
         textDumper.dump(phoneBillForTom);
 
-        File file = Paths.get(outputDirectory.toString(), "PhoneBills/Tom-PhoneBill.txt").toFile();
+        File file = Paths.get(outputDirectory.toString(), "Tom-PhoneBill.txt").toFile();
 
         assertTrue(file.exists());
 
@@ -54,7 +54,7 @@ public class TextDumperTest {
         TextDumper textDumper = new TextDumper(outputDirectory.toPath());
         textDumper.dump(phoneBillForJake);
 
-        File file = Paths.get(outputDirectory.toString(), "PhoneBills/Jake-PhoneBill.txt").toFile();
+        File file = Paths.get(outputDirectory.toString(), "Jake-PhoneBill.txt").toFile();
 
         assertTrue(file.exists());
 
@@ -62,7 +62,7 @@ public class TextDumperTest {
 
         assertEquals(2, lines.size());
         assertEquals("Jake", lines.get(0));
-        assertEquals("555-555-5556|666-666-6667|1/15/2020 19:39|02/1/2020 1:03", lines.get(1));
+        assertEquals("555-555-5556\\|666-666-6667\\|1/15/2020 19:39\\|02/1/2020 1:03", lines.get(1));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class TextDumperTest {
         TextDumper textDumper = new TextDumper(outputDirectory.toPath());
         textDumper.dump(phoneBillForJane);
 
-        File file = Paths.get(outputDirectory.toString(), "PhoneBills/Jane-PhoneBill.txt").toFile();
+        File file = Paths.get(outputDirectory.toString(), "Jane-PhoneBill.txt").toFile();
 
         assertTrue(file.exists());
 
@@ -87,9 +87,9 @@ public class TextDumperTest {
 
         assertEquals(4, lines.size());
         assertEquals("Jane", lines.get(0));
-        assertEquals("555-555-5556|666-666-6667|1/15/2020 19:39|02/1/2020 1:03", lines.get(1));
-        assertEquals("777-555-5556|666-777-6667|1/15/2020 19:49|02/1/2020 1:13", lines.get(2));
-        assertEquals("555-555-8888|666-666-8888|1/15/2020 19:59|02/1/2020 1:23", lines.get(3));
+        assertEquals("555-555-5556\\|666-666-6667\\|1/15/2020 19:39\\|02/1/2020 1:03", lines.get(1));
+        assertEquals("777-555-5556\\|666-777-6667\\|1/15/2020 19:49\\|02/1/2020 1:13", lines.get(2));
+        assertEquals("555-555-8888\\|666-666-8888\\|1/15/2020 19:59\\|02/1/2020 1:23", lines.get(3));
     }
 
     private static PhoneCall createPhoneCall(String caller, String callee, String startTime, String endTime) {

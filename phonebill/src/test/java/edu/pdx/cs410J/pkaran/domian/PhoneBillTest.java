@@ -26,7 +26,7 @@ public class PhoneBillTest {
 
     @Test
     public void addPhoneCall() {
-        PhoneBill<PhoneCall> phoneBill = PhoneBillBuilder.aPhoneBill().build();
+        PhoneBill<PhoneCall> phoneBill = PhoneBillBuilder.aPhoneBill().withCustomerName("customer").build();
 
         phoneBill.addPhoneCall(PHONE_CALL);
 
@@ -39,14 +39,14 @@ public class PhoneBillTest {
     public void getPhoneCalls_callsAdded() {
         List<PhoneCall> phoneCalls = List.of(PHONE_CALL, PHONE_CALL);
 
-        PhoneBill<PhoneCall> phoneBill = PhoneBillBuilder.aPhoneBill().withPhoneCalls(phoneCalls).build();
+        PhoneBill<PhoneCall> phoneBill = PhoneBillBuilder.aPhoneBill().withCustomerName("customer").withPhoneCalls(phoneCalls).build();
 
         Assert.assertEquals(phoneCalls, phoneBill.getPhoneCalls());
     }
 
     @Test
     public void getPhoneCalls_noCallsAdded() {
-        PhoneBill<PhoneCall> phoneBill = PhoneBillBuilder.aPhoneBill().build();
+        PhoneBill<PhoneCall> phoneBill = PhoneBillBuilder.aPhoneBill().withCustomerName("customer").build();
 
         Assert.assertNotNull(phoneBill.getPhoneCalls());
         Assert.assertTrue(phoneBill.getPhoneCalls().isEmpty());
