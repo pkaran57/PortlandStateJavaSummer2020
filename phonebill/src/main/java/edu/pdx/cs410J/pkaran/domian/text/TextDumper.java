@@ -7,24 +7,30 @@ import edu.pdx.cs410J.pkaran.domian.PhoneCall;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Generates and dumps text representation of PhoneBill into a file
+ */
 public class TextDumper implements PhoneBillDumper {
 
-    private final Path outputDirectoryPath;
+    private final Path filePath;
 
-    public TextDumper() {
-        this(Paths.get(System.getProperty("user.dir")));
+    /**
+     * @param filePath path of the file to text string representation of PhoneBill into
+     */
+    public TextDumper(Path filePath) {
+        this.filePath = filePath;
     }
 
-    public TextDumper(Path outputDirectoryPath) {
-        this.outputDirectoryPath = outputDirectoryPath;
-    }
-
+    /**
+     * Generates and dumps text representation of PhoneBill into a file
+     * @param abstractPhoneBill phone bill whose text representation needs to be dumped
+     * @throws IOException
+     */
     @Override
     public void dump(AbstractPhoneBill abstractPhoneBill) throws IOException {
         List<String> lines = new LinkedList<>();
@@ -40,6 +46,6 @@ public class TextDumper implements PhoneBillDumper {
             lines.addAll(phoneCallLines);
         }
 
-        Files.write(outputDirectoryPath, lines);
+        Files.write(filePath, lines);
     }
 }

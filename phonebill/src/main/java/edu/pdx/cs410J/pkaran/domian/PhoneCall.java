@@ -151,6 +151,10 @@ public class PhoneCall extends AbstractPhoneCall {
         }
     }
 
+    /**
+     * Generates a string representation of the PhoneCall object
+     * @return a string representation of the PhoneCall object
+     */
     public String getStringRepresentation() {
         StringJoiner joiner = new StringJoiner(STRING_FORMAT_DELIMITER);
 
@@ -162,6 +166,11 @@ public class PhoneCall extends AbstractPhoneCall {
         return joiner.toString();
     }
 
+    /**
+     * Creates a PhoneCall object from the stringRepresentation
+     * @param stringRepresentation string representation of the PhoneCall object
+     * @return a PhoneCall object generated from the stringRepresentation
+     */
     public static PhoneCall generateFromStringRepresentation(String stringRepresentation) {
         List<String> phoneCallFields = Arrays.asList(stringRepresentation.split(Pattern.quote(STRING_FORMAT_DELIMITER)));
 

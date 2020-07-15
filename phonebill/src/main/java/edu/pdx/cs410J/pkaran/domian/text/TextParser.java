@@ -14,14 +14,26 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Generates PhoneBill based on its text representation
+ */
 public class TextParser implements PhoneBillParser {
 
     private final Path filePath;
 
+    /**
+     * Path of file containing text representation of PhoneBill
+     * @param filePath
+     */
     public TextParser(Path filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Generates PhoneBill based on its text representation
+     * @return a PhoneBill object based on its text representation
+     * @throws ParserException
+     */
     @Override
     public AbstractPhoneBill parse() throws ParserException {
         String absoluteFilePath = filePath.toAbsolutePath().toString();
@@ -68,6 +80,11 @@ public class TextParser implements PhoneBillParser {
                 .build();
     }
 
+    /**
+     * Checks if all lines are blank
+     * @param lines lines to check
+     * @return true if all lines are blank, false otherwise
+     */
     static boolean allLinesBlank(List<String> lines) {
         return lines.stream().allMatch(String::isBlank);
     }

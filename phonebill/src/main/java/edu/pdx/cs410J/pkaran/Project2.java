@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * The main class for the CS410J Phone Bill Project
+ * The main class for the CS410J Phone Bill Project 2
  */
 public class Project2 {
 
@@ -48,6 +48,7 @@ public class Project2 {
     List<String> commandLineArguments = Arrays.stream(commandLineArgs).map(String::trim).collect(Collectors.toList());
 
     try {
+      // command line arguments validation
       if (commandLineArguments.isEmpty()) {
         throw new IllegalArgumentException("Missing command line arguments");
       }
@@ -58,13 +59,15 @@ public class Project2 {
 
       checkOptionsOnlySpecifiedOnce(commandLineArguments);
 
+      // only output README if readme option specified
       if (commandLineArguments.contains(READ_ME_OPTION)) {
         System.out.print(READ_ME);
       } else {
         final boolean printOptionFlag = commandLineArguments.contains(PRINT_OPTION);
-        final File file = getFile(commandLineArguments);
+        // get data file
+        final File file = getPhoneBillTextFile(commandLineArguments);
 
-        // command line arguments minus the 2 options
+        // command line arguments minus the 3 options
         List<String> programArguments = getProgramArguments(commandLineArguments);
 
         if (programArguments.size() != 7) {
@@ -110,7 +113,12 @@ public class Project2 {
     }
   }
 
-  private static File getFile(List<String> commandLineArguments) {
+  /**
+   * Looks up file in the command line argument and returns a File with the path to file
+   * @param commandLineArguments arguments passed on to the program
+   * @return File whose path is passed on in the command line argument
+   */
+  private static File getPhoneBillTextFile(List<String> commandLineArguments) {
     File file = null;
 
     if (commandLineArguments.contains(TEXT_FILE_OPTION)) {
@@ -128,15 +136,25 @@ public class Project2 {
     return file;
   }
 
+  /**
+   * Create a phone call based on program options passed on via command line arguments
+   * @param programArguments arguments passed on to the program
+   * @return a PhoneCall object created based on information in programArguments
+   */
   private static PhoneCall createPhoneCall(List<String> programArguments) {
     return PhoneCall.PhoneCallBuilder.aPhoneCall()
-                                                    .withCaller(programArguments.get(1))
-                                                    .withCallee(programArguments.get(2))
-                                                    .withStartTime(programArguments.get(3) + " " + programArguments.get(4))
-                                                    .withEndTime(programArguments.get(5) + " " + programArguments.get(6))
-                                                    .build();
+                                      .withCaller(programArguments.get(1))
+                                      .withCallee(programArguments.get(2))
+                                      .withStartTime(programArguments.get(3) + " " + programArguments.get(4))
+                                      .withEndTime(programArguments.get(5) + " " + programArguments.get(6))
+                                      .build();
   }
 
+  /**
+   * Extracts program arguments from the command line arguments
+   * @param commandLineArguments arguments passed on to the program
+   * @return program arguments extracted from the command line arguments
+   */
   private static List<String> getProgramArguments(List<String> commandLineArguments) {
     List<String> args = commandLineArguments.stream()
             .filter(arg -> !PROGRAM_OPTIONS_WITH_NO_ARGS.contains(arg))
@@ -151,6 +169,10 @@ public class Project2 {
     return args;
   }
 
+  /**
+   * Checks to ensure no option is used more than once
+   * @param commandLineArguments arguments passed on to the program
+   */
   private static void checkOptionsOnlySpecifiedOnce(List<String> commandLineArguments) {
     for (String option: PROGRAM_OPTIONS) {
       if(Collections.frequency(commandLineArguments, option) > 1) {
