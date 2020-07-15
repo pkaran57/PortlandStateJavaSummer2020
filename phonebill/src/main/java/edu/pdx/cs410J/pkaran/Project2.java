@@ -83,7 +83,7 @@ public class Project2 {
 
           AbstractPhoneBill phoneBill = parser.parse();
 
-          if(phoneBill.getCustomer() != programArguments.get(0)) {
+          if(!phoneBill.getCustomer().equals(programArguments.get(0))) {
             throw new IllegalArgumentException(String.format("Customer name in file (%s) does not match the customer name in the argument (%s)", phoneBill.getCustomer(), programArguments.get(0)));
           }
 

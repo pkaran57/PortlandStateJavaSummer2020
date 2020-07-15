@@ -146,7 +146,7 @@ public class Project2IT extends InvokeMainTestCase {
 
     @Test
     public void customerNameDifferent() throws IOException, ParserException {
-        Path file = Paths.get(resourcesDirectory.getAbsolutePath(), "Jane Taylor-PhoneBill.txt");
+        Path file = Paths.get(resourcesDirectory.getAbsolutePath(), "Jane Taylor-PhoneBill - customerNameDifferent.txt");
         Files.writeString(file, "Jane Taylor\n" +
                 "555-555-5556|666-666-6667|1/15/2020 19:39|02/1/2020 1:03\n" +
                 "777-555-5556|666-777-6667|1/15/2020 19:49|02/1/2020 1:13\n" +
@@ -155,6 +155,9 @@ public class Project2IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(TEXT_FILE_OPTION, file.toAbsolutePath().toString(), PRINT_OPTION, "Tom", "555-999-5556", "666-666-6667", "1/15/2020", "19:39", "02/1/2020", "1:03");
 
         assertEquals("Customer name in file (Jane Taylor) does not match the customer name in the argument (Tom)", result.getTextWrittenToStandardError());
+
+        // cleanup
+        new File(String.valueOf(file)).deleteOnExit();
     }
 
     @Test
