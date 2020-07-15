@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public class PhoneCall extends AbstractPhoneCall {
 
-    private static final String STRING_FORMAT_DELIMITER = "\\|";
+    private static final String STRING_FORMAT_DELIMITER = "|";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("M/d/uuuu H:mm");
 
     private final String caller;
@@ -163,11 +163,13 @@ public class PhoneCall extends AbstractPhoneCall {
     }
 
     public static PhoneCall generateFromStringRepresentation(String stringRepresentation) {
-        List<String> phoneCallFields = Arrays.asList(stringRepresentation.split(STRING_FORMAT_DELIMITER));
+        List<String> phoneCallFields = Arrays.asList(stringRepresentation.split(Pattern.quote(STRING_FORMAT_DELIMITER)));
 
         int numOfFields = phoneCallFields.size();
         if (numOfFields != 4) {
-            throw new IllegalStateException("Expected string representation of PhoneCall contain 4 fields but got " + numOfFields);
+            String errorMessage = String.format("Expected string representation of PhoneCall to contain 4 fields but got %d field(s).\n" +
+                    "Following is the expected representation of a Phone call that was expected: caller|callee|start-time|end-time", numOfFields);
+            throw new IllegalStateException(errorMessage);
         }
 
         return PhoneCallBuilder.aPhoneCall()

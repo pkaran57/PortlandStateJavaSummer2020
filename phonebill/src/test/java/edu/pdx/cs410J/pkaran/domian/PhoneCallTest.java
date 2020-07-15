@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static edu.pdx.cs410J.pkaran.domian.PhoneCall.isTimeStampValid;
 import static edu.pdx.cs410J.pkaran.domian.PhoneCall.isValidPhoneNumber;
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -28,22 +29,22 @@ public class PhoneCallTest {
 
   @Test
   public void getCaller() {
-    Assert.assertEquals(CALLER, VALID_PHONE_CALL.getCaller());
+    assertEquals(CALLER, VALID_PHONE_CALL.getCaller());
   }
 
   @Test
   public void getCallee() {
-    Assert.assertEquals(CALLEE, VALID_PHONE_CALL.getCallee());
+    assertEquals(CALLEE, VALID_PHONE_CALL.getCallee());
   }
 
   @Test
   public void getStartTimeString() {
-    Assert.assertEquals(START_TIME, VALID_PHONE_CALL.getStartTimeString());
+    assertEquals(START_TIME, VALID_PHONE_CALL.getStartTimeString());
   }
 
   @Test
   public void getEndTimeString() {
-    Assert.assertEquals(END_TIME, VALID_PHONE_CALL.getEndTimeString());
+    assertEquals(END_TIME, VALID_PHONE_CALL.getEndTimeString());
   }
 
   @Test
@@ -66,5 +67,40 @@ public class PhoneCallTest {
     Assert.assertFalse(isTimeStampValid("01-15-2020 19:39"));
     Assert.assertFalse(isTimeStampValid("1/2/2020"));
     Assert.assertFalse(isTimeStampValid("1:03"));
+  }
+
+    @Test
+    public void getStringRepresentation() {
+      PhoneCall phoneCall = PhoneCall.PhoneCallBuilder.aPhoneCall()
+              .withCaller("555-555-5556")
+              .withCallee("666-666-6667")
+              .withStartTime("1/15/2020 19:39")
+              .withEndTime("02/1/2020 1:03")
+              .build();
+
+      String generatedStringRepresentation = phoneCall.getStringRepresentation();
+
+      assertEquals("555-555-5556|666-666-6667|1/15/2020 19:39|02/1/2020 1:03", generatedStringRepresentation);
+    }
+
+    @Test
+    public void generateFromStringRepresentation() {
+      String phoneCallString = "555-555-5556|666-666-6667|1/15/2020 19:39|02/1/2020 1:03";
+
+      PhoneCall phoneCall = PhoneCall.generateFromStringRepresentation(phoneCallString);
+
+      assertEquals("555-555-5556", phoneCall.getCaller());
+      assertEquals("666-666-6667", phoneCall.getCallee());
+      assertEquals("1/15/2020 19:39", phoneCall.getStartTimeString());
+      assertEquals("02/1/2020 1:03", phoneCall.getEndTimeString());
+    }
+
+  @Test
+  public void generateFromInvalidStringRepresentation() {
+    String phoneCallString = "invlaid";
+
+    Assert.assertThrows("Expected string representation of PhoneCall to contain 4 fields but got 1 field(s).\nFollowing is the expected representation of a Phone call that was expected: caller|callee|start-time|end-time",
+            IllegalStateException.class,
+            () -> PhoneCall.generateFromStringRepresentation(phoneCallString));
   }
 }
