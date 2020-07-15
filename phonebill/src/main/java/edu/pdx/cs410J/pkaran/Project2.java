@@ -79,6 +79,11 @@ public class Project2 {
           TextDumper dumper = new TextDumper(file.toPath());
 
           AbstractPhoneBill phoneBill = parser.parse();
+
+          if(phoneBill.getCustomer() != programArguments.get(0)) {
+            throw new IllegalArgumentException(String.format("Customer name in file (%s) does not match the customer name in the argument (%s)", phoneBill.getCustomer(), programArguments.get(0)));
+          }
+
           phoneBill.addPhoneCall(phoneCall);
 
           dumper.dump(phoneBill);

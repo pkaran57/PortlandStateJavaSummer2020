@@ -143,4 +143,46 @@ public class Project2IT extends InvokeMainTestCase {
         assertEquals("Jane Taylor", phoneBill.getCustomer());
         assertEquals(4, phoneBill.getPhoneCalls().size());
     }
+
+    @Test
+    public void customerNameDifferent() throws IOException, ParserException {
+        Path file = Paths.get(resourcesDirectory.getAbsolutePath(), "Jane Taylor-PhoneBill.txt");
+        Files.writeString(file, "Jane Taylor\n" +
+                "555-555-5556|666-666-6667|1/15/2020 19:39|02/1/2020 1:03\n" +
+                "777-555-5556|666-777-6667|1/15/2020 19:49|02/1/2020 1:13\n" +
+                "555-555-8888|666-666-8888|1/15/2020 19:59|02/1/2020 1:23");
+
+        MainMethodResult result = invokeMain(TEXT_FILE_OPTION, file.toAbsolutePath().toString(), PRINT_OPTION, "Tom", "555-999-5556", "666-666-6667", "1/15/2020", "19:39", "02/1/2020", "1:03");
+
+        assertEquals("Customer name in file (Jane Taylor) does not match the customer name in the argument (Tom)", result.getTextWrittenToStandardError());
+    }
+
+    @Test
+    public void billFileAbsent() throws ParserException {
+        Path file = Paths.get(resourcesDirectory.getAbsolutePath(), "Kate-PhoneBill.txt");
+
+        MainMethodResult result = invokeMain(TEXT_FILE_OPTION, file.toAbsolutePath().toString(), PRINT_OPTION, "Kate", "555-999-5556", "666-666-6667", "1/15/2020", "19:39", "02/1/2020", "1:03");
+
+        assertEquals("Phone call from 555-999-5556 to 666-666-6667 from 1/15/2020 19:39 to 02/1/2020 1:03", result.getTextWrittenToStandardOut());
+        Assert.assertTrue(result.getTextWrittenToStandardError().isEmpty());
+
+        TextParser textParser = new TextParser(file);
+        AbstractPhoneBill phoneBill = textParser.parse();
+
+        assertEquals("Kate", phoneBill.getCustomer());
+        assertEquals(1, phoneBill.getPhoneCalls().size());
+
+        // cleanup
+        new File(String.valueOf(file)).deleteOnExit();
+    }
+
+    @Test
+    public void  badBillFile() {
+        Path file = Paths.get(resourcesDirectory.getAbsolutePath(), "BadBillFile.txt");
+
+        MainMethodResult result = invokeMain(TEXT_FILE_OPTION, file.toAbsolutePath().toString(), PRINT_OPTION, "Tom", "555-999-5556", "666-666-6667", "1/15/2020", "19:39", "02/1/2020", "1:03");
+
+        assertEquals("Expected string representation of PhoneCall to contain 4 fields but got 1 field(s).\n" +
+                "Following is the expected representation of a Phone call that was expected: caller|callee|start-time|end-time", result.getTextWrittenToStandardError());
+    }
 }
