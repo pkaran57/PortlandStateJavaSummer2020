@@ -19,15 +19,15 @@ public class TextDumperTest {
 
     @Test
     public void dump_noPhoneCall() throws IOException {
+        File file = getFile(outputDirectory, "Tom-PhoneBill.txt");
 
         PhoneBill phoneBillForTom = PhoneBill.PhoneBillBuilder.aPhoneBill()
                 .withCustomerName("Tom")
                 .build();
 
-        TextDumper textDumper = new TextDumper(outputDirectory.toPath());
+        TextDumper textDumper = new TextDumper(file.toPath());
         textDumper.dump(phoneBillForTom);
 
-        File file = Paths.get(outputDirectory.toString(), "Tom-PhoneBill.txt").toFile();
 
         assertTrue(file.exists());
 
@@ -39,6 +39,8 @@ public class TextDumperTest {
 
     @Test
     public void dump_onePhoneCall() throws IOException {
+        File file = Paths.get(outputDirectory.toString(), "Jake-PhoneBill.txt").toFile();
+
         PhoneCall phoneCall = PhoneCall.PhoneCallBuilder.aPhoneCall()
                 .withCaller("555-555-5556")
                 .withCallee("666-666-6667")
@@ -51,10 +53,8 @@ public class TextDumperTest {
                                                                 .withPhoneCalls(List.of(phoneCall))
                                                                 .build();
 
-        TextDumper textDumper = new TextDumper(outputDirectory.toPath());
+        TextDumper textDumper = new TextDumper(file.toPath());
         textDumper.dump(phoneBillForJake);
-
-        File file = Paths.get(outputDirectory.toString(), "Jake-PhoneBill.txt").toFile();
 
         assertTrue(file.exists());
 
@@ -67,6 +67,8 @@ public class TextDumperTest {
 
     @Test
     public void dump_multiplePhoneCalls() throws IOException {
+        File file = Paths.get(outputDirectory.toString(), "Jane-PhoneBill.txt").toFile();
+
         PhoneCall phoneCall1 = createPhoneCall("555-555-5556", "666-666-6667", "1/15/2020 19:39", "02/1/2020 1:03");
         PhoneCall phoneCall2 = createPhoneCall("777-555-5556", "666-777-6667", "1/15/2020 19:49", "02/1/2020 1:13");
         PhoneCall phoneCall3 = createPhoneCall("555-555-8888", "666-666-8888", "1/15/2020 19:59", "02/1/2020 1:23");
@@ -76,10 +78,8 @@ public class TextDumperTest {
                 .withPhoneCalls(List.of(phoneCall1, phoneCall2, phoneCall3))
                 .build();
 
-        TextDumper textDumper = new TextDumper(outputDirectory.toPath());
+        TextDumper textDumper = new TextDumper(file.toPath());
         textDumper.dump(phoneBillForJane);
-
-        File file = Paths.get(outputDirectory.toString(), "Jane-PhoneBill.txt").toFile();
 
         assertTrue(file.exists());
 
@@ -99,5 +99,9 @@ public class TextDumperTest {
                 .withStartTime(startTime)
                 .withEndTime(endTime)
                 .build();
+    }
+
+    private static File getFile(File outputDirectory, String s) {
+        return Paths.get(outputDirectory.toString(), s).toFile();
     }
 }

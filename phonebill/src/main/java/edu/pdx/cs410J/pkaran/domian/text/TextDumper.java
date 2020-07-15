@@ -40,8 +40,6 @@ public class TextDumper implements PhoneBillDumper {
             lines.addAll(phoneCallLines);
         }
 
-        Path filePath = Paths.get(String.valueOf(outputDirectoryPath), String.format("%s-PhoneBill.txt", abstractPhoneBill.getCustomer()));
-
-        Files.write(filePath, lines);
+        Files.write(outputDirectoryPath, lines);
     }
 }
