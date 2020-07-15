@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class Project2IT extends InvokeMainTestCase {
 
-    final File resourcesDirectory = new File("src/it/resources");
+    final File resourcesDirectory = new File("src/it/resources/edu/pdx/cs410J/pkaran");
 
     /**
      * Invokes the main method of {@link Project2} with the given arguments.
