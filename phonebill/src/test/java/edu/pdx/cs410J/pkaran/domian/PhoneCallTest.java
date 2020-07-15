@@ -1,10 +1,11 @@
-package edu.pdx.cs410J.pkaran;
+package edu.pdx.cs410J.pkaran.domian;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import static edu.pdx.cs410J.pkaran.PhoneCall.isTimeStampValid;
-import static edu.pdx.cs410J.pkaran.PhoneCall.isValidPhoneNumber;
+import static edu.pdx.cs410J.pkaran.domian.PhoneCall.isTimeStampValid;
+import static edu.pdx.cs410J.pkaran.domian.PhoneCall.isValidPhoneNumber;
+
 
 /**
  * Unit tests for the {@link PhoneCall} class.

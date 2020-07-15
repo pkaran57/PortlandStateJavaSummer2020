@@ -1,11 +1,11 @@
-package edu.pdx.cs410J.pkaran;
+package edu.pdx.cs410J.pkaran.domian;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
 
-import static edu.pdx.cs410J.pkaran.PhoneBill.PhoneBillBuilder;
+import static edu.pdx.cs410J.pkaran.domian.PhoneBill.PhoneBillBuilder;
 
 public class PhoneBillTest {
 

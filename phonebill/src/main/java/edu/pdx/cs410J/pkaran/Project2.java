@@ -10,26 +10,29 @@ import java.util.stream.Collectors;
 /**
  * The main class for the CS410J Phone Bill Project
  */
-public class Project1 {
+public class Project2 {
 
-  static final String READ_ME = "\nStudent name: Karan Patel, Project 1: Designing a Phone Bill Application\n\n" +
-                                "This application generates a Phone Bill with a Phone Call and optionally prints information about the Phone Call.\n\n" +
+  static final String READ_ME = "\nStudent name: Karan Patel, Project 2: Storing Your Phone Bill in a Text File\n\n" +
+                                "This application generates a Phone Bill with a Phone Call and optionally prints information about the Phone Call.\n" +
+                                "Phone bills can also be stored and loaded from a (text) file.\n\n" +
           "Usage: java edu.pdx.cs410J.pkaran.Project1 [options] <args>\n" +
           "\targs are (in this order):\n" +
-          "\t\tcustomer - Person whose phone bill we’re modeling\n" +
-          "\t\tcallerNumber - Phone number of caller\n" +
-          "\t\tcalleeNumber - Phone number of person who was called\n" +
-          "\t\tstart - Date and time call began (24-hour time)\n" +
-          "\t\tend - Date and time call ended (24-hour time)\n" +
+            "\t\tcustomer - Person whose phone bill we’re modeling\n" +
+            "\t\tcallerNumber - Phone number of caller\n" +
+            "\t\tcalleeNumber - Phone number of person who was called\n" +
+            "\t\tstart - Date and time call began (24-hour time)\n" +
+            "\t\tend - Date and time call ended (24-hour time)\n" +
           "\toptions are (options may appear in any order):\n" +
-                  "\t\t-print Prints a description of the new phone call\n" +
-        "\t\t-README Prints a README for this project and exits\n" +
+            "\t\t-textFile file Where to read/write the phone bill\n" +
+            "\t\t-print Prints a description of the new phone call\n" +
+            "\t\t-README Prints a README for this project and exits\n" +
           "Date and time should be in the format: mm/dd/yyyy hh:mm";
 
 
   static final String READ_ME_OPTION = "-README";
   static final String PRINT_OPTION = "-print";
-  static final List<String> PROGRAM_OPTIONS = List.of(READ_ME_OPTION, PRINT_OPTION);
+  static final String TEXT_FILE_OPTION = "-textFile";
+  static final List<String> PROGRAM_OPTIONS = List.of(READ_ME_OPTION, PRINT_OPTION, TEXT_FILE_OPTION);
 
   /**
    * main method, entry point for the app

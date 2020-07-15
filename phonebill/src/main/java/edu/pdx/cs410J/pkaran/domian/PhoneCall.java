@@ -1,10 +1,13 @@
-package edu.pdx.cs410J.pkaran;
+package edu.pdx.cs410J.pkaran.domian;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
 /**
@@ -145,5 +148,43 @@ public class PhoneCall extends AbstractPhoneCall {
         public PhoneCall build() {
             return new PhoneCall(caller, callee, startTime, endTime);
         }
+    }
+
+    public String getStringRepresentation(String delimiter) {
+        StringJoiner joiner = new StringJoiner(delimiter);
+
+        joiner.add(this.getCaller())
+              .add(this.getCallee())
+              .add(this.getStartTimeString())
+              .add(this.getEndTimeString());
+
+        return joiner.toString();
+    }
+
+    public static PhoneCall generateFromStringRepresentation(String stringRepresentation, String fieldDelimiter) {
+        List<String> phoneCallFields = Arrays.asList(stringRepresentation.split(fieldDelimiter));
+
+        int numOfFields = phoneCallFields.size();
+        if (numOfFields != 4) {
+            throw new IllegalStateException("Expected string representation of PhoneCall contain 4 fields but got " + numOfFields);
+        }
+
+        return PhoneCallBuilder.aPhoneCall()
+                .withCallee(phoneCallFields.get(0))
+                .withCaller(phoneCallFields.get(1))
+                .withStartTime(phoneCallFields.get(2))
+                .withEndTime(phoneCallFields.get(3))
+                .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PhoneCall phoneCall = (PhoneCall) o;
+        return caller.equals(phoneCall.caller) &&
+                callee.equals(phoneCall.callee) &&
+                startTime.equals(phoneCall.startTime) &&
+                endTime.equals(phoneCall.endTime);
     }
 }
