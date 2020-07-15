@@ -67,7 +67,7 @@ public class TextDumperTest {
 
     @Test
     public void dump_multiplePhoneCalls() throws IOException {
-        File file = Paths.get(outputDirectory.toString(), "Jane-PhoneBill.txt").toFile();
+        File file = Paths.get(outputDirectory.toString(), "src/it/resources/Jane Taylor-PhoneBill.txt").toFile();
 
         PhoneCall phoneCall1 = createPhoneCall("555-555-5556", "666-666-6667", "1/15/2020 19:39", "02/1/2020 1:03");
         PhoneCall phoneCall2 = createPhoneCall("777-555-5556", "666-777-6667", "1/15/2020 19:49", "02/1/2020 1:13");

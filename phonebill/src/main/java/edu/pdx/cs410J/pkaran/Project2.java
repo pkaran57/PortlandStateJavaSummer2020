@@ -52,8 +52,8 @@ public class Project2 {
         throw new IllegalArgumentException("Missing command line arguments");
       }
 
-      if(commandLineArguments.size() > 9) {
-        throw new IllegalArgumentException("There should not be more than 9 arguments passed on to the program. Please check the program's readme by passing on the -README option");
+      if(commandLineArguments.size() > 11) {
+        throw new IllegalArgumentException("There should not be more than 11 arguments passed on to the program. Please check the program's readme by passing on the -README option");
       }
 
       checkOptionsOnlySpecifiedOnce(commandLineArguments);

@@ -45,7 +45,7 @@ public class TextParserTest {
 
     @Test
     public void parse_multiplePhoneBills() throws ParserException {
-        TextParser textParser = new TextParser(Paths.get(phoneBillDataDirectory.getAbsolutePath(), "Jane-PhoneBill.txt"));
+        TextParser textParser = new TextParser(Paths.get(phoneBillDataDirectory.getAbsolutePath(), "src/it/resources/Jane Taylor-PhoneBill.txt"));
 
         AbstractPhoneBill phoneBill = textParser.parse();
 
