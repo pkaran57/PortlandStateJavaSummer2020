@@ -22,6 +22,14 @@ public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T>
      * @param phoneCalls list of phone calls for the phone bill
      */
     private PhoneBill(String customerName, List<T> phoneCalls) {
+        if(customerName == null) {
+            throw new IllegalStateException("Customer name on Phone Bill is null");
+        }
+
+        if(customerName.isBlank()) {
+            throw new IllegalStateException("Customer name on Phone Bill is blank");
+        }
+
         this.customerName = customerName;
         this.phoneCalls = Objects.requireNonNullElseGet(phoneCalls, ArrayList::new);
     }
@@ -73,5 +81,14 @@ public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T>
         public PhoneBill<T> build() {
             return new PhoneBill<T>(customerName, phoneCalls);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PhoneBill<?> phoneBill = (PhoneBill<?>) o;
+        return customerName.equals(phoneBill.customerName) &&
+                phoneCalls.equals(phoneBill.phoneCalls);
     }
 }

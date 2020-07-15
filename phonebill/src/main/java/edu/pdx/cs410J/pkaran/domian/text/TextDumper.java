@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 
 public class TextDumper implements PhoneBillDumper {
 
-    private final static String DELIMITER = "|";
-
     private final Path outputDirectoryPath;
 
     public TextDumper() {
@@ -36,7 +34,7 @@ public class TextDumper implements PhoneBillDumper {
 
         if (phoneCalls != null && !phoneCalls.isEmpty()) {
             List<String> phoneCallLines = phoneCalls.stream()
-                                                    .map(phoneCall -> phoneCall.getStringRepresentation(DELIMITER))
+                                                    .map(PhoneCall::getStringRepresentation)
                                                     .collect(Collectors.toList());
 
             lines.addAll(phoneCallLines);

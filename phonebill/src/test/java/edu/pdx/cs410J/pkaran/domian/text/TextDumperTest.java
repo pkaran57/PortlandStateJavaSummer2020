@@ -27,7 +27,7 @@ public class TextDumperTest {
         TextDumper textDumper = new TextDumper(outputDirectory.toPath());
         textDumper.dump(phoneBillForTom);
 
-        File file = Paths.get(outputDirectory.toString(), "Tom-PhoneBill.txt").toFile();
+        File file = Paths.get(outputDirectory.toString(), "PhoneBills/Tom-PhoneBill.txt").toFile();
 
         assertTrue(file.exists());
 
@@ -54,7 +54,7 @@ public class TextDumperTest {
         TextDumper textDumper = new TextDumper(outputDirectory.toPath());
         textDumper.dump(phoneBillForJake);
 
-        File file = Paths.get(outputDirectory.toString(), "Jake-PhoneBill.txt").toFile();
+        File file = Paths.get(outputDirectory.toString(), "PhoneBills/Jake-PhoneBill.txt").toFile();
 
         assertTrue(file.exists());
 
@@ -79,7 +79,7 @@ public class TextDumperTest {
         TextDumper textDumper = new TextDumper(outputDirectory.toPath());
         textDumper.dump(phoneBillForJane);
 
-        File file = Paths.get(outputDirectory.toString(), "Jane-PhoneBill.txt").toFile();
+        File file = Paths.get(outputDirectory.toString(), "PhoneBills/Jane-PhoneBill.txt").toFile();
 
         assertTrue(file.exists());
 

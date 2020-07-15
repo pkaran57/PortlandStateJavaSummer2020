@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
  */
 public class PhoneCall extends AbstractPhoneCall {
 
+    private static final String STRING_FORMAT_DELIMITER = "\\|";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("M/d/uuuu H:mm");
 
     private final String caller;
@@ -150,8 +151,8 @@ public class PhoneCall extends AbstractPhoneCall {
         }
     }
 
-    public String getStringRepresentation(String delimiter) {
-        StringJoiner joiner = new StringJoiner(delimiter);
+    public String getStringRepresentation() {
+        StringJoiner joiner = new StringJoiner(STRING_FORMAT_DELIMITER);
 
         joiner.add(this.getCaller())
               .add(this.getCallee())
@@ -161,8 +162,8 @@ public class PhoneCall extends AbstractPhoneCall {
         return joiner.toString();
     }
 
-    public static PhoneCall generateFromStringRepresentation(String stringRepresentation, String fieldDelimiter) {
-        List<String> phoneCallFields = Arrays.asList(stringRepresentation.split(fieldDelimiter));
+    public static PhoneCall generateFromStringRepresentation(String stringRepresentation) {
+        List<String> phoneCallFields = Arrays.asList(stringRepresentation.split(STRING_FORMAT_DELIMITER));
 
         int numOfFields = phoneCallFields.size();
         if (numOfFields != 4) {
@@ -170,8 +171,8 @@ public class PhoneCall extends AbstractPhoneCall {
         }
 
         return PhoneCallBuilder.aPhoneCall()
-                .withCallee(phoneCallFields.get(0))
-                .withCaller(phoneCallFields.get(1))
+                .withCaller(phoneCallFields.get(0))
+                .withCallee(phoneCallFields.get(1))
                 .withStartTime(phoneCallFields.get(2))
                 .withEndTime(phoneCallFields.get(3))
                 .build();
