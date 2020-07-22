@@ -10,6 +10,10 @@ import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Pretty printer for PhoneBill
+ * @param <T>
+ */
 public class PrettyPrinter<T extends PhoneBill<PhoneCall>> implements PhoneBillDumper<T> {
 
     private final File outputFile;
@@ -20,6 +24,11 @@ public class PrettyPrinter<T extends PhoneBill<PhoneCall>> implements PhoneBillD
 
     public static final String FORMAT_STRING = "%-15s%-15s%-23s%-23s%-15s" + System.lineSeparator();
 
+    /**
+     * Dump pretty print of phoneBill into either a file or std out
+     * @param phoneBill
+     * @throws IOException
+     */
     @Override
     public void dump(T phoneBill) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
