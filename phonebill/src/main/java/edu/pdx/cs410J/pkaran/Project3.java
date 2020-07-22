@@ -18,22 +18,22 @@ import java.util.stream.Collectors;
  */
 public class Project3 {
 
-  static final String READ_ME = "\nStudent name: Karan Patel, CS410J Project 3: Pretty Printing A Phone Bill\n\n" +
-                                "This application generates a Phone Bill with a Phone Call and optionally prints information about the Phone Call.\n" +
-                                "Phone bills can also be stored and loaded from a (text) file.\n" +
-                                "The phone calls can also be pretty printed to either the console or to a file.\n\n" +
-          "Usage: java edu.pdx.cs410J.pkaran.Project1 [options] <args>\n" +
-          "\targs are (in this order):\n" +
-            "\t\tcustomer - Person whose phone bill we’re modeling\n" +
-            "\t\tcallerNumber - Phone number of caller\n" +
-            "\t\tcalleeNumber - Phone number of person who was called\n" +
-            "\t\tstart - Date and time call began (24-hour time)\n" +
-            "\t\tend - Date and time call ended (24-hour time)\n" +
-          "\toptions are (options may appear in any order):\n" +
-            "\t\t-pretty file Pretty print the phone bill to a text file or standard out (file -).\n" +
-            "\t\t-textFile file Where to read/write the phone bill\n" +
-            "\t\t-print Prints a description of the new phone call\n" +
-            "\t\t-README Prints a README for this project and exits\n" +
+  static final String READ_ME = System.lineSeparator() + "Student name: Karan Patel, CS410J Project 3: Pretty Printing A Phone Bill" + System.lineSeparator() +System.lineSeparator() +
+                                "This application generates a Phone Bill with a Phone Call and optionally prints information about the Phone Call." + System.lineSeparator() +
+                                "Phone bills can also be stored and loaded from a (text) file." + System.lineSeparator() +
+                                "The phone calls can also be pretty printed to either the console or to a file." + System.lineSeparator() +System.lineSeparator() +
+          "Usage: java edu.pdx.cs410J.pkaran.Project1 [options] <args>" + System.lineSeparator() +
+          "\targs are (in this order):" + System.lineSeparator() +
+            "\t\tcustomer - Person whose phone bill we’re modeling" + System.lineSeparator() +
+            "\t\tcallerNumber - Phone number of caller" + System.lineSeparator() +
+            "\t\tcalleeNumber - Phone number of person who was called" + System.lineSeparator() +
+            "\t\tstart - Date and time call began (24-hour time)" + System.lineSeparator() +
+            "\t\tend - Date and time call ended (24-hour time)" + System.lineSeparator() +
+          "\toptions are (options may appear in any order):" + System.lineSeparator() +
+            "\t\t-pretty file Pretty print the phone bill to a text file or standard out (file -)." + System.lineSeparator() +
+            "\t\t-textFile file Where to read/write the phone bill" + System.lineSeparator() +
+            "\t\t-print Prints a description of the new phone call" + System.lineSeparator() +
+            "\t\t-README Prints a README for this project and exits" + System.lineSeparator() +
           "Date and time should be in the format: mm/dd/yyyy hh:mm";
 
 

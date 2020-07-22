@@ -127,9 +127,9 @@ public class Project3IT extends InvokeMainTestCase {
     @Test
     public void billFilePresent() throws IOException, ParserException {
         Path file = Paths.get(resourcesDirectory.getAbsolutePath(), "Jane Taylor-PhoneBill.txt");
-        Files.writeString(file, "Jane Taylor\n" +
-                "555-555-5556|666-666-6667|1/15/2020 9:39 am|02/1/2020 1:03 pm\n" +
-                "777-555-5556|666-777-6667|1/15/2020 9:49 am|02/1/2020 1:13 pm\n" +
+        Files.writeString(file, "Jane Taylor" + System.lineSeparator() +
+                "555-555-5556|666-666-6667|1/15/2020 9:39 am|02/1/2020 1:03 pm" + System.lineSeparator() +
+                "777-555-5556|666-777-6667|1/15/2020 9:49 am|02/1/2020 1:13 pm" + System.lineSeparator() +
                 "555-555-8888|666-666-8888|1/15/2020 9:59 am|02/1/2020 1:23 pm");
 
         MainMethodResult result = invokeMain(TEXT_FILE_OPTION, file.toAbsolutePath().toString(), PRINT_OPTION, "Jane Taylor", "555-999-5556", "666-666-6667", "1/15/2020", "9:39", "am", "02/1/2020", "1:03", "pm");
@@ -147,9 +147,9 @@ public class Project3IT extends InvokeMainTestCase {
     @Test
     public void customerNameDifferent() throws IOException, ParserException {
         Path file = Paths.get(resourcesDirectory.getAbsolutePath(), "Jane Taylor-PhoneBill - customerNameDifferent.txt");
-        Files.writeString(file, "Jane Taylor\n" +
-                "555-555-5556|666-666-6667|1/15/2020 9:39 am|02/1/2020 1:03 pm\n" +
-                "777-555-5556|666-777-6667|1/15/2020 9:49 am|02/1/2020 1:13 pm\n" +
+        Files.writeString(file, "Jane Taylor" + System.lineSeparator() +
+                "555-555-5556|666-666-6667|1/15/2020 9:39 am|02/1/2020 1:03 pm" + System.lineSeparator() +
+                "777-555-5556|666-777-6667|1/15/2020 9:49 am|02/1/2020 1:13 pm" + System.lineSeparator() +
                 "555-555-8888|666-666-8888|1/15/2020 9:59 am|02/1/2020 1:23 pm");
 
         MainMethodResult result = invokeMain(TEXT_FILE_OPTION, file.toAbsolutePath().toString(), PRINT_OPTION, "Tom", "555-999-5556", "666-666-6667", "1/15/2020", "9:39", "am", "02/1/2020", "1:03", "pm");
@@ -185,7 +185,26 @@ public class Project3IT extends InvokeMainTestCase {
 
         MainMethodResult result = invokeMain(TEXT_FILE_OPTION, file.toAbsolutePath().toString(), PRINT_OPTION, "Tom", "555-999-5556", "666-666-6667", "1/15/2020", "9:39", "am", "02/1/2020", "1:03", "pm");
 
-        assertEquals("Expected string representation of PhoneCall to contain 4 fields but got 1 field(s).\n" +
+        assertEquals("Expected string representation of PhoneCall to contain 4 fields but got 1 field(s)." + System.lineSeparator() +
                 "Following is the expected representation of a Phone call that was expected: caller|callee|start-time|end-time", result.getTextWrittenToStandardError());
+    }
+
+    @Test
+    public void prettyPrintToConsole() {
+        MainMethodResult result = invokeMain(PRETTY_PRINT_OPTION, "-", "First Last", "555-555-5556", "666-666-6667", "1/15/2020", "9:39", "am", "02/1/2020", "1:03", "pm");
+
+        
+        String expectedOutput = "----------------------------------------------------------" + System.lineSeparator() + 
+                "Phone Bill for customer 'First Last':" + System.lineSeparator() +
+                "" + System.lineSeparator() +
+                "Following are the phone calls in the phone bill:" + System.lineSeparator() +
+                "" + System.lineSeparator() +
+                "Caller         Callee         Start Time             End Time               Duration (in seconds)" + System.lineSeparator() +
+                "555-555-5556   666-666-6667   1/15/20, 9:39 AM       2/1/20, 1:03 PM        1481040        " + System.lineSeparator() +
+                "" + System.lineSeparator() +
+                "----------------------------------------------------------" + System.lineSeparator();
+        
+        assertEquals(expectedOutput, result.getTextWrittenToStandardOut());
+        Assert.assertTrue(result.getTextWrittenToStandardError().isEmpty());
     }
 }

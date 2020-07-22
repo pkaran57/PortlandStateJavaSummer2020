@@ -219,7 +219,7 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable {
 
         int numOfFields = phoneCallFields.size();
         if (numOfFields != 4) {
-            String errorMessage = String.format("Expected string representation of PhoneCall to contain 4 fields but got %d field(s).\n" +
+            String errorMessage = String.format("Expected string representation of PhoneCall to contain 4 fields but got %d field(s)." + System.lineSeparator() +
                     "Following is the expected representation of a Phone call that was expected: caller|callee|start-time|end-time", numOfFields);
             throw new IllegalStateException(errorMessage);
         }

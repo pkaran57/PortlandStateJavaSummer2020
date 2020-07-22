@@ -18,27 +18,30 @@ public class PrettyPrinter<T extends PhoneBill<PhoneCall>> implements PhoneBillD
         this.outputFile = outputFile;
     }
 
-    public static final String FORMAT_STRING = "%-15s%-15s%-15s%-15s%-15s\n";
+    public static final String FORMAT_STRING = "%-15s%-15s%-23s%-23s%-15s" + System.lineSeparator();
 
     @Override
     public void dump(T phoneBill) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
 
-        stringBuffer.append(String.format("Phone Bill for customer '%s':\n\n", phoneBill.getCustomer()));
+        stringBuffer.append("----------------------------------------------------------" + System.lineSeparator());
+        stringBuffer.append(String.format("Phone Bill for customer '%s':" + System.lineSeparator() + System.lineSeparator(), phoneBill.getCustomer()));
 
         List<PhoneCall> phoneCallsList = phoneBill.getPhoneCallsAsList();
 
         if (phoneCallsList.isEmpty()) {
             stringBuffer.append("No phone calls were found for the phone bill.");
         } else {
-            stringBuffer.append("Following are the phone calls in the phone bill:\n");
+            stringBuffer.append("Following are the phone calls in the phone bill:" + System.lineSeparator() + System.lineSeparator());
             stringBuffer.append(getFormattedHeader());
 
             Collections.sort(phoneCallsList);
             phoneCallsList.forEach(phoneCall ->
                     stringBuffer.append(String.format(FORMAT_STRING,
-                            phoneCall.getCaller(), phoneCall.getCallee(), phoneCall.getStartTimeString(), phoneCall.getEndTimeString(), phoneCall.getDuration())));
+                            phoneCall.getCaller(), phoneCall.getCallee(), phoneCall.getStartTimeString(), phoneCall.getEndTimeString(), phoneCall.getDuration().toSeconds())));
         }
+
+        stringBuffer.append(System.lineSeparator() + "----------------------------------------------------------");
 
         if (outputFile == null) {
             System.out.println(stringBuffer.toString());
@@ -48,6 +51,6 @@ public class PrettyPrinter<T extends PhoneBill<PhoneCall>> implements PhoneBillD
     }
 
     private String getFormattedHeader() {
-        return String.format(FORMAT_STRING, "Caller", "Callee", "Start Time", "End Time", "Duration");
+        return String.format(FORMAT_STRING, "Caller", "Callee", "Start Time", "End Time", "Duration (in seconds)");
     }
 }
