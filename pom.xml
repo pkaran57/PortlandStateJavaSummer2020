@@ -28,6 +28,7 @@ accordingly
   <modules>
     <module>student</module>
     <module>phonebill</module>
+    <module>koans</module>
   </modules>
 
   <inceptionYear>2020</inceptionYear>
