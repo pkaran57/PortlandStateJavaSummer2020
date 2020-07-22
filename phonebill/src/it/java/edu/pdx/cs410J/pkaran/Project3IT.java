@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -206,5 +207,36 @@ public class Project3IT extends InvokeMainTestCase {
         
         assertEquals(expectedOutput, result.getTextWrittenToStandardOut());
         Assert.assertTrue(result.getTextWrittenToStandardError().isEmpty());
+    }
+
+    @Test
+    public void prettyPrintToFile() throws IOException {
+        File file = Paths.get(resourcesDirectory.getAbsolutePath(), "Pretty-print-out.txt").toFile();
+
+        MainMethodResult result = invokeMain(PRETTY_PRINT_OPTION, file.getAbsolutePath(), "First Last", "555-555-5556", "666-666-6667", "1/15/2020", "9:39", "am", "02/1/2020", "1:03", "pm");
+
+
+        String expectedOutput = "----------------------------------------------------------" + System.lineSeparator() +
+                "Phone Bill for customer 'First Last':" + System.lineSeparator() +
+                "" + System.lineSeparator() +
+                "Following are the phone calls in the phone bill:" + System.lineSeparator() +
+                "" + System.lineSeparator() +
+                "Caller         Callee         Start Time             End Time               Duration (in seconds)" + System.lineSeparator() +
+                "555-555-5556   666-666-6667   1/15/20, 9:39 AM       2/1/20, 1:03 PM        1481040        " + System.lineSeparator() +
+                "" + System.lineSeparator() +
+                "----------------------------------------------------------";
+
+        Assert.assertTrue(result.getTextWrittenToStandardOut().isEmpty());
+        Assert.assertTrue(result.getTextWrittenToStandardError().isEmpty());
+
+        FileInputStream fis = new FileInputStream(file);
+        byte[] data = new byte[(int) file.length()];
+        fis.read(data);
+        fis.close();
+
+        assertEquals(expectedOutput, new String(data).strip());
+
+        // cleanup
+        file.deleteOnExit();
     }
 }

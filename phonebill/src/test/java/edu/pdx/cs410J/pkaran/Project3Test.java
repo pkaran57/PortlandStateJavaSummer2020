@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * from <code>Project1IT</code> which is an integration test (and can handle the calls
  * to {@link System#exit(int)} and the like.
  */
-public class Project1Test {
+public class Project3Test {
 
   @Test
   public void readmeCanBeReadAsResource() throws IOException {
@@ -25,7 +25,7 @@ public class Project1Test {
       assertThat(readme, not(nullValue()));
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
       String line = reader.readLine();
-      assertThat(line, containsString("Student name: Karan Patel, Project 2: Storing Your Phone Bill in a Text File"));
+      assertThat(line, containsString("Student name: Karan Patel, CS410J Project 3: Pretty Printing A Phone Bill"));
     }
   }
 }
