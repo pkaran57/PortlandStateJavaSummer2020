@@ -2,26 +2,28 @@ package edu.pdx.cs410J.pkaran.domian;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringJoiner;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
  * a class to represent a Phone call make by a caller to a callee and to track the duration of the call
  */
-public class PhoneCall extends AbstractPhoneCall {
+public class PhoneCall extends AbstractPhoneCall implements Comparable {
 
     private static final String STRING_FORMAT_DELIMITER = "|";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("M/d/uuuu H:mm");
+
+    //example:  01/02/2020 9:16 pm
+    private static final  SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("M/d/uuuu h:m a");
+    private static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.SHORT);
 
     private final String caller;
     private final String callee;
-    private final String startTime;
-    private final String endTime;
+    private final Date startTime;
+    private final Date endTime;
 
     /**
      * All args constructor which performs validation for all of the parameters. Exception can be thrown if any of the parameters are invalid.
@@ -46,15 +48,15 @@ public class PhoneCall extends AbstractPhoneCall {
         }
 
         if(isTimeStampValid(startTime)) {
-            this.startTime = startTime;
+            this.startTime = parseTimeStamp(startTime);
         } else {
-            throw new IllegalArgumentException(String.format("Start time is invalid. It should be in the following format: mm/dd/yyyy hh:mm but got %s", startTime));
+            throw new IllegalArgumentException(String.format("Start time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got %s", startTime));
         }
 
         if(isTimeStampValid(endTime)) {
-            this.endTime = endTime;
+            this.endTime = parseTimeStamp(endTime);
         } else {
-            throw new IllegalArgumentException(String.format("End time is invalid. It should be in the following format: mm/dd/yyyy hh:mm but got %s", endTime));
+            throw new IllegalArgumentException(String.format("End time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got %s", endTime));
         }
     }
 
@@ -73,17 +75,24 @@ public class PhoneCall extends AbstractPhoneCall {
      * @return true if valid, false otherwise
      */
     static boolean isTimeStampValid(String timestamp) {
+        return parseTimeStamp(timestamp) != null;
+    }
+
+    /**
+     * Parse timestamp into Date
+     * @param timestamp timestamp to parse
+     * @return parsed Date, if error encountered during parsing, null is returned
+     */
+    private static Date parseTimeStamp(String timestamp) {
         if (timestamp == null) {
-            return false;
+            return null;
         }
 
         try {
-            LocalDate.parse(timestamp, DATE_TIME_FORMATTER);
-        } catch (DateTimeParseException dateTimeParseException) {
-            return false;
+            return SIMPLE_DATE_FORMAT.parse(timestamp);
+        } catch (ParseException dateTimeParseException) {
+            return null;
         }
-
-       return true;
     }
 
     @Override
@@ -98,12 +107,46 @@ public class PhoneCall extends AbstractPhoneCall {
 
     @Override
     public String getStartTimeString() {
-        return startTime;
+        return DATE_FORMAT.format(startTime);
     }
 
     @Override
     public String getEndTimeString() {
-        return endTime;
+        return DATE_FORMAT.format(endTime);
+    }
+
+    @Override
+    public Date getStartTime() {
+        return super.getStartTime();
+    }
+
+    @Override
+    public Date getEndTime() {
+        return super.getEndTime();
+    }
+
+    /**
+     * Compares this object with the specified object for order.  Returns a
+     * negative integer, zero, or a positive integer as this object is less
+     * than, equal to, or greater than the specified object.
+     *
+     * @param object the object to be compared.
+     * @return a negative integer, zero, or a positive integer as this object
+     * is less than, equal to, or greater than the specified object.
+     * @throws NullPointerException if the specified object is null
+     * @throws ClassCastException   if the specified object's type prevents it
+     *                              from being compared to this object.
+     */
+    @Override
+    public int compareTo(Object object) {
+        return Comparator
+                .comparing(PhoneCall::getStartTime)
+                .thenComparing(PhoneCall::getCaller)
+                .compare(this, (PhoneCall) object);
+    }
+
+    public Duration getDuration() {
+        return Duration.between(startTime.toInstant(), endTime.toInstant());
     }
 
     /**

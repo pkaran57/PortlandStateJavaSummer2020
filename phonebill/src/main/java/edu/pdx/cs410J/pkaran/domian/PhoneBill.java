@@ -49,6 +49,9 @@ public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T>
         return phoneCalls;
     }
 
+    public List<T> getPhoneCallsAsList() {
+        return phoneCalls;
+    }
 
     /**
      * Builder for the PhoneBill class
