@@ -39,8 +39,8 @@ public class TextParserTest {
 
         assertEquals("555-555-5556", phoneCall.getCaller());
         assertEquals("666-666-6667", phoneCall.getCallee());
-        assertEquals("1/15/2020 19:39", phoneCall.getStartTimeString());
-        assertEquals("02/1/2020 1:03", phoneCall.getEndTimeString());
+        assertEquals("1/15/20, 9:39 PM", phoneCall.getStartTimeString());
+        assertEquals("2/1/20, 1:03 AM", phoneCall.getEndTimeString());
     }
 
     @Test

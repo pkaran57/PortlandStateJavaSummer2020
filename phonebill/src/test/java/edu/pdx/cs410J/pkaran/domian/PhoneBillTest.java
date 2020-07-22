@@ -12,8 +12,8 @@ public class PhoneBillTest {
     private static final PhoneCall PHONE_CALL = PhoneCall.PhoneCallBuilder.aPhoneCall()
                                                                             .withCaller("555-555-5556")
                                                                             .withCallee("666-666-6667")
-                                                                            .withStartTime("1/15/2020 19:39")
-                                                                            .withEndTime("02/1/2020 1:03")
+                                                                            .withStartTime("1/15/2020 9:39 am")
+                                                                            .withEndTime("02/1/2020 1:03 pm")
                                                                             .build();
 
     @Test
