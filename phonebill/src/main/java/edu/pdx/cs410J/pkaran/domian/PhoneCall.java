@@ -17,8 +17,8 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable {
     private static final String STRING_FORMAT_DELIMITER = "|";
 
     //example:  01/02/2020 9:16 pm
-    private static final  SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("M/d/uuuu h:m a");
-    private static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.SHORT);
+    private static final  SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("M/d/yyyy h:m a");
+    private static final DateFormat DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
     private final String caller;
     private final String callee;
@@ -203,8 +203,8 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable {
 
         joiner.add(this.getCaller())
               .add(this.getCallee())
-              .add(this.getStartTimeString())
-              .add(this.getEndTimeString());
+              .add(SIMPLE_DATE_FORMAT.format(startTime))
+              .add(SIMPLE_DATE_FORMAT.format(endTime));
 
         return joiner.toString();
     }

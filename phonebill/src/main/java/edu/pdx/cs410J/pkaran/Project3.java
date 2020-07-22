@@ -57,7 +57,7 @@ public class Project3 {
         throw new IllegalArgumentException("Missing command line arguments");
       }
 
-      if(commandLineArguments.size() > 13) {
+      if(commandLineArguments.size() > 15) {
         throw new IllegalArgumentException("There should not be more than 11 arguments passed on to the program. Please check the program's readme by passing on the -README option");
       }
 
@@ -77,8 +77,8 @@ public class Project3 {
         // command line arguments minus the 4 options
         List<String> programArguments = getProgramArguments(commandLineArguments);
 
-        if (programArguments.size() != 7) {
-          throw new IllegalArgumentException(String.format("Expected a total of 7 arguments of the form: [customer callerNumber calleeNumber start-date start-time end-date end-time] but got the following %d : %s", programArguments.size(), programArguments.toString().replace(",", "")));
+        if (programArguments.size() != 9) {
+          throw new IllegalArgumentException(String.format("Expected a total of 9 arguments of the form: [customer callerNumber calleeNumber start-date start-time am/pm end-date end-time am/pm] but got the following %d : %s", programArguments.size(), programArguments.toString().replace(",", "")));
         }
 
         AbstractPhoneBill phoneBill;
@@ -186,8 +186,8 @@ public class Project3 {
     return PhoneCall.PhoneCallBuilder.aPhoneCall()
                                       .withCaller(programArguments.get(1))
                                       .withCallee(programArguments.get(2))
-                                      .withStartTime(programArguments.get(3) + " " + programArguments.get(4))
-                                      .withEndTime(programArguments.get(5) + " " + programArguments.get(6))
+                                      .withStartTime(programArguments.get(3) + " " + programArguments.get(4) + " " + programArguments.get(5))
+                                      .withEndTime(programArguments.get(6) + " " + programArguments.get(7) + " " + programArguments.get(8))
                                       .build();
   }
 
