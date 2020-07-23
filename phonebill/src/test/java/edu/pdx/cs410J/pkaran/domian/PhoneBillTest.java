@@ -3,6 +3,9 @@ package edu.pdx.cs410J.pkaran.domian;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static edu.pdx.cs410J.pkaran.domian.PhoneBill.PhoneBillBuilder;
@@ -15,6 +18,59 @@ public class PhoneBillTest {
                                                                             .withStartTime("1/15/2020 9:39 am")
                                                                             .withEndTime("02/1/2020 1:03 pm")
                                                                             .build();
+
+    @Test
+    public void sortPhoneCalls_differentStartTimes() {
+        String customerName = "customer-name";
+
+        PhoneCall aPhoneCall = PhoneCall.PhoneCallBuilder.aPhoneCall()
+                .withCaller("555-555-5556")
+                .withCallee("666-666-6667")
+                .withStartTime("1/15/2020 8:39 am")
+                .withEndTime("02/1/2020 1:03 pm")
+                .build();
+
+        List phoneCallsList = new ArrayList();
+        phoneCallsList.add(PHONE_CALL);
+        phoneCallsList.add(aPhoneCall);
+
+        PhoneBill phoneBill = PhoneBillBuilder.aPhoneBill().withCustomerName(customerName).withPhoneCalls(phoneCallsList).build();
+
+        Assert.assertEquals(customerName, phoneBill.getCustomer());
+        Collection phoneCalls = phoneBill.getPhoneCalls();
+        List<Object> phoneCallList = Arrays.asList(phoneCalls.toArray());
+
+        Assert.assertEquals(2, phoneCallList.size());
+        Assert.assertEquals(aPhoneCall, phoneCallList.get(0));
+        Assert.assertEquals(PHONE_CALL, phoneCallList.get(1));
+    }
+
+    @Test
+    public void sortPhoneCalls_sameStartTime() {
+        String customerName = "customer-name";
+
+        PhoneCall aPhoneCall = PhoneCall.PhoneCallBuilder.aPhoneCall()
+                .withCaller("555-555-5552")
+                .withCallee("666-666-6667")
+                .withStartTime("1/15/2020 9:39 am")
+                .withEndTime("02/1/2020 1:03 pm")
+                .build();
+
+        List phoneCallsList = new ArrayList();
+        phoneCallsList.add(PHONE_CALL);
+        phoneCallsList.add(aPhoneCall);
+
+        PhoneBill phoneBill = PhoneBillBuilder.aPhoneBill().withCustomerName(customerName).withPhoneCalls(phoneCallsList).build();
+
+        Assert.assertEquals(customerName, phoneBill.getCustomer());
+        Collection phoneCalls = phoneBill.getPhoneCalls();
+        List<Object> phoneCallList = Arrays.asList(phoneCalls.toArray());
+
+        Assert.assertEquals(2, phoneCallList.size());
+        Assert.assertEquals(aPhoneCall, phoneCallList.get(0));
+        Assert.assertEquals(PHONE_CALL, phoneCallList.get(1));
+    }
+
 
     @Test
     public void getCustomer() {

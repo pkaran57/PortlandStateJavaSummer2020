@@ -1,17 +1,13 @@
 package edu.pdx.cs410J.pkaran.domian;
 
 import edu.pdx.cs410J.AbstractPhoneBill;
-import edu.pdx.cs410J.AbstractPhoneCall;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Class representing a phone bill for a given customer and optionally containing details about phone calls
  */
-public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T> {
+public class PhoneBill<T extends PhoneCall> extends AbstractPhoneBill<T> {
 
     private final String customerName;
     private final List<T> phoneCalls;
@@ -32,6 +28,7 @@ public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T>
 
         this.customerName = customerName;
         this.phoneCalls = Objects.requireNonNullElseGet(phoneCalls, ArrayList::new);
+        Collections.sort(this.phoneCalls);
     }
 
     @Override
@@ -42,21 +39,24 @@ public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T>
     @Override
     public void addPhoneCall(T abstractPhoneCall) {
         phoneCalls.add(abstractPhoneCall);
+        Collections.sort(this.phoneCalls);
     }
 
     @Override
     public Collection<T> getPhoneCalls() {
+        Collections.sort(this.phoneCalls);
         return phoneCalls;
     }
 
     public List<T> getPhoneCallsAsList() {
+        Collections.sort(this.phoneCalls);
         return phoneCalls;
     }
 
     /**
      * Builder for the PhoneBill class
      */
-    public static final class PhoneBillBuilder<T extends AbstractPhoneCall> {
+    public static final class PhoneBillBuilder<T extends PhoneCall> {
         private String customerName;
         private List<T> phoneCalls;
 
@@ -73,7 +73,7 @@ public class PhoneBill<T extends AbstractPhoneCall> extends AbstractPhoneBill<T>
         }
 
         public PhoneBillBuilder<T> withPhoneCalls(List<T> phoneCalls) {
-            this.phoneCalls = phoneCalls;
+            this.phoneCalls = phoneCalls == null ? phoneCalls : new ArrayList<>(phoneCalls);
             return this;
         }
 

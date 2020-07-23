@@ -117,12 +117,12 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable {
 
     @Override
     public Date getStartTime() {
-        return super.getStartTime();
+        return startTime;
     }
 
     @Override
     public Date getEndTime() {
-        return super.getEndTime();
+        return endTime;
     }
 
     /**

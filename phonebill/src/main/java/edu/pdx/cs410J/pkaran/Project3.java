@@ -8,6 +8,7 @@ import edu.pdx.cs410J.pkaran.domian.text.TextDumper;
 import edu.pdx.cs410J.pkaran.domian.text.TextParser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -100,10 +101,13 @@ public class Project3 {
 
           dumper.dump(phoneBill);
         } else {
+          List phoneCallsList = new ArrayList();
+          phoneCallsList.add(phoneCall);
+
           // generate an instance of PhoneBill based on command line args and add PhoneCall to it
           phoneBill = PhoneBill.PhoneBillBuilder.aPhoneBill()
                   .withCustomerName(programArguments.get(0))
-                  .withPhoneCalls(Arrays.asList(phoneCall))
+                  .withPhoneCalls(phoneCallsList)
                   .build();
 
           if (file != null && !file.exists()) {
