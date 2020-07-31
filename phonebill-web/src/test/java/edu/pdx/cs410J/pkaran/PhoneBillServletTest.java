@@ -67,7 +67,7 @@ public class PhoneBillServletTest {
 
     assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
 
-    assertThat(servlet.getDefinition(word), equalTo(definition));
+    //assertThat(servlet.getDefinition(word), equalTo(definition));
   }
 
 }

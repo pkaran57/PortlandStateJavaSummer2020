@@ -10,12 +10,7 @@ public class PhoneBillController {
 
     private final List<PhoneBill> phoneBillList = new ArrayList<>();
 
-    public String getAllPhoneCallsInfo(String customerName) {
-        Optional<PhoneBill> phoneBillOptional = getPhoneBill(customerName);
-        return phoneBillOptional.isPresent() ? TextDumper.dump(phoneBillOptional.get(), null, null) : null;
-    }
-
-    public String getPhoneCallsInfoBetween(String customerName, Date startDate, Date endDate) {
+    public String getPhoneCalls(String customerName, Date startDate, Date endDate) {
         Optional<PhoneBill> phoneBillOptional = getPhoneBill(customerName);
         return phoneBillOptional.isPresent() ? TextDumper.dump(phoneBillOptional.get(), startDate, endDate) : null;
     }

@@ -74,7 +74,7 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable {
      * @param timestamp timestamp to check
      * @return true if valid, false otherwise
      */
-    static boolean isTimeStampValid(String timestamp) {
+    public static boolean isTimeStampValid(String timestamp) {
         return parseTimeStamp(timestamp) != null;
     }
 
@@ -83,7 +83,7 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable {
      * @param timestamp timestamp to parse
      * @return parsed Date, if error encountered during parsing, null is returned
      */
-    private static Date parseTimeStamp(String timestamp) {
+    public static Date parseTimeStamp(String timestamp) {
         if (timestamp == null) {
             return null;
         }
