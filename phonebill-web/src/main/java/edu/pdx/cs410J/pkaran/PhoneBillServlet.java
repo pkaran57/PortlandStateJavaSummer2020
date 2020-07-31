@@ -99,9 +99,7 @@ public class PhoneBillServlet extends HttpServlet {
             return;
         }
 
-        phoneBillController.addPhoneCall(customer, phoneCall);
-
-        writeMessageToResponse(response, "Phone Call added to the phone bill of " + customer);
+        writeMessageToResponse(response, "Phone Call added to the phone bill for " + customer);
         response.setStatus( HttpServletResponse.SC_OK);
     }
 
