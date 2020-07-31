@@ -43,8 +43,7 @@ public class PhoneBillServlet extends HttpServlet {
         Date startDate = null, endDate = null;
 
         if(customer == null) {
-            writeMessageToResponse(response, "Error: Customer name cannot be null or blank");
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error: Customer name cannot be null or blank");
             return;
         }
 
@@ -52,8 +51,7 @@ public class PhoneBillServlet extends HttpServlet {
             if (isTimeStampValid(start)) {
                 startDate = parseTimeStamp(start);
             } else {
-                writeMessageToResponse(response, String.format("Start time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got %s", start));
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, String.format("Start time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got %s", start));
                 return;
             }
         }
@@ -62,8 +60,7 @@ public class PhoneBillServlet extends HttpServlet {
             if (isTimeStampValid(end)) {
                 endDate = parseTimeStamp(end);
             } else {
-                writeMessageToResponse(response, String.format("End time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got %s", end));
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, String.format("End time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got %s", end));
                 return;
             }
         }
@@ -71,8 +68,7 @@ public class PhoneBillServlet extends HttpServlet {
         String phoneCallsTextDump = phoneBillController.getPhoneCalls(customer, startDate, endDate);
 
         if (phoneCallsTextDump == null) {
-            writeMessageToResponse(response, "Did not find any phone calls for customer " + customer);
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Did not find any phone calls for customer " + customer);
         } else {
             writeMessageToResponse(response, phoneCallsTextDump);
             response.setStatus(HttpServletResponse.SC_OK);
@@ -88,8 +84,7 @@ public class PhoneBillServlet extends HttpServlet {
         String end = getParameter(END_PARAM, request);
 
         if(customer == null) {
-            writeMessageToResponse(response, "Error: Customer name cannot be null or blank");
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error: Customer name cannot be null or blank");
             return;
         }
 
@@ -104,8 +99,7 @@ public class PhoneBillServlet extends HttpServlet {
 
             phoneBillController.addPhoneCall(customer, phoneCall);
         } catch (Exception e) {
-            writeMessageToResponse(response, e.getMessage());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
             return;
         }
 
@@ -128,11 +122,6 @@ public class PhoneBillServlet extends HttpServlet {
         return value;
       }
     }
-
-//    @VisibleForTesting
-//    String getDefinition(String word) {
-//        return this.dictionary.get(word);
-//    }
 
     private void writeMessageToResponse(HttpServletResponse response, String message) throws IOException {
         response.setContentType( "text/plain" );

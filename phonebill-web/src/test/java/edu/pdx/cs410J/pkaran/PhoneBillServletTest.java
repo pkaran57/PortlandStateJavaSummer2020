@@ -198,8 +198,7 @@ public class PhoneBillServletTest {
 
         servlet.doGet(request, response);
 
-        verify(pw).println("Did not find any phone calls for customer Jake");
-        verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
+        verify(response).sendError(HttpServletResponse.SC_NOT_FOUND, "Did not find any phone calls for customer Jake");
     }
 
     @Test
@@ -220,8 +219,7 @@ public class PhoneBillServletTest {
 
         servlet.doPost(request, response);
 
-        verify(pw).println("Caller phone number is invalid. Phone numbers should have the form nnn-nnn-nnnn where n is a number 0-9 but got 555");
-        verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        verify(response).sendError(HttpServletResponse.SC_BAD_REQUEST, "Caller phone number is invalid. Phone numbers should have the form nnn-nnn-nnnn where n is a number 0-9 but got 555");
     }
 
     @Test
@@ -242,8 +240,7 @@ public class PhoneBillServletTest {
 
         servlet.doPost(request, response);
 
-        verify(pw).println("Callee phone number is invalid. Phone numbers should have the form nnn-nnn-nnnn where n is a number 0-9 but got 555");
-        verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        verify(response).sendError(HttpServletResponse.SC_BAD_REQUEST, "Callee phone number is invalid. Phone numbers should have the form nnn-nnn-nnnn where n is a number 0-9 but got 555");
     }
 
     @Test
@@ -264,8 +261,7 @@ public class PhoneBillServletTest {
 
         servlet.doPost(request, response);
 
-        verify(pw).println("Start time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got 1/15/2020 8:39");
-        verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        verify(response).sendError(HttpServletResponse.SC_BAD_REQUEST, "Start time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got 1/15/2020 8:39");
     }
 
     @Test
@@ -286,7 +282,6 @@ public class PhoneBillServletTest {
 
         servlet.doPost(request, response);
 
-        verify(pw).println("End time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got 02/1/2020 1:03");
-        verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        verify(response).sendError(HttpServletResponse.SC_BAD_REQUEST, "End time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got 02/1/2020 1:03");
     }
 }

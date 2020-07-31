@@ -3,6 +3,7 @@ package edu.pdx.cs410J.pkaran;
 import edu.pdx.cs410J.pkaran.phonebill.domian.PhoneCall;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
@@ -16,15 +17,18 @@ public class Project4 {
 
     public static final String MISSING_ARGS = "Missing command line arguments";
 
-    private static final String HOST_OPTION = "-host";
-    private static final String PORT_OPTION = "-port";
-    private static final String SEARCH_OPTION = "-search";
-    private static final String PRINT_OPTION = "-print";
-    private static final String READ_ME_OPTION = "-README";
+    static final String HOST_OPTION = "-host";
+    static final String PORT_OPTION = "-port";
+    static final String SEARCH_OPTION = "-search";
+    static final String PRINT_OPTION = "-print";
+    static final String READ_ME_OPTION = "-README";
 
     private static final List<String> PROGRAM_OPTIONS_WITH_NO_ARGS = List.of(READ_ME_OPTION, PRINT_OPTION, SEARCH_OPTION);
 
-    private static final String READ_ME = "usage: java edu.pdx.cs410J.<login-id>.Project4 [options] <args>"  + System.lineSeparator() +
+    private static final String READ_ME = System.lineSeparator() +
+            "Student name: Karan Patel, CS410J Project 4: A REST-ful Phone Bill Web Service" + System.lineSeparator() +
+            "This client talks to the server to manage phone calls in phone bills for various customers." + System.lineSeparator() + System.lineSeparator() +
+            "usage: java edu.pdx.cs410J.<login-id>.Project4 [options] <args>"  + System.lineSeparator() +
             "\targs are (in this order):"  + System.lineSeparator() +
             "\t\tcustomer Person whose phone bill we’re modeling"  + System.lineSeparator() +
             "\t\tcallerNumber Phone number of caller"  + System.lineSeparator() +
@@ -84,7 +88,13 @@ public class Project4 {
                 }
             }
         } catch(Exception ex) {
-            System.err.print(ex.getMessage());
+            String errorMessage = ex.getMessage();
+
+            if(ex instanceof IOException) {
+                errorMessage = "Encountered an error trying to connect. Here is the root cause - " + ex.getMessage();
+            }
+
+            System.err.print(errorMessage);
             System.exit(1);
             return;
         }
@@ -166,10 +176,10 @@ public class Project4 {
             try{
                 optionValue = commandLineArguments.get(optionIndex + 1);
             } catch (IndexOutOfBoundsException ex) {
-                throw new IllegalArgumentException(String.format("Did not find any value for the %s option. Please specify it and try again.", optionFlag), ex);
+                throw new IllegalArgumentException(String.format("Did not find any value for the %s option. Please specify it and try again. Check out the README for more info.", optionFlag), ex);
             }
         } else {
-            throw new IllegalArgumentException(String.format("Did not find the '%s' option. Please specify it and try again.", optionFlag));
+            throw new IllegalArgumentException(String.format("Did not find the '%s' option. Please specify it and try again. Check out the README for more info.", optionFlag));
         }
         return optionValue;
     }
