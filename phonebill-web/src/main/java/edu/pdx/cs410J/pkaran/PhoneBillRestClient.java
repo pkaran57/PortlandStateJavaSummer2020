@@ -1,11 +1,13 @@
 package edu.pdx.cs410J.pkaran;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.pkaran.phonebill.domian.PhoneCall;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
 import java.util.Map;
 
+import static edu.pdx.cs410J.pkaran.PhoneBillServlet.*;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
@@ -29,6 +31,30 @@ public class PhoneBillRestClient extends HttpRequestHelper
     public PhoneBillRestClient( String hostName, int port )
     {
         this.url = String.format( "http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET );
+    }
+
+    public String searchPhoneCalls(String customer) throws IOException {
+        Response response = get(this.url, Map.of(CUSTOMER_PARAM, customer));
+        throwExceptionIfNotOkayHttpStatus(response);
+        return response.getContent();
+    }
+
+    public String searchPhoneCalls(String customer, String start, String end) throws IOException {
+        Response response = get(this.url, Map.of(CUSTOMER_PARAM, customer, START_PARAM, start, END_PARAM, end));
+        throwExceptionIfNotOkayHttpStatus(response);
+        return response.getContent();
+    }
+
+    public String addPhoneCall(String customer, PhoneCall phoneCall) throws IOException {
+        Map<String, String> params = Map.of(CUSTOMER_PARAM, customer,
+                                            CALLER_NUM_PARAM, phoneCall.getCaller(),
+                                            CALLEE_NUM_PARAM, phoneCall.getCallee(),
+                                            START_PARAM, phoneCall.getStartTimeString(),
+                                            END_PARAM, phoneCall.getEndTimeString());
+
+        Response response = postToMyURL(params);
+        throwExceptionIfNotOkayHttpStatus(response);
+        return response.getContent();
     }
 
     /**

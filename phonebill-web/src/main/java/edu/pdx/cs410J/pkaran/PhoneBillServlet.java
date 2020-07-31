@@ -15,11 +15,11 @@ import static edu.pdx.cs410J.pkaran.phonebill.domian.PhoneCall.parseTimeStamp;
 
 public class PhoneBillServlet extends HttpServlet {
 
-    private final static String CUSTOMER_PARAM = "customer";
-    private final static String CALLER_NUM_PARAM = "callerNumber";
-    private final static String CALLEE_NUM_PARAM = "calleeNumber";
-    private final static String START_PARAM = "start";
-    private final static String END_PARAM = "end";
+    final static String CUSTOMER_PARAM = "customer";
+    final static String CALLER_NUM_PARAM = "callerNumber";
+    final static String CALLEE_NUM_PARAM = "calleeNumber";
+    final static String START_PARAM = "start";
+    final static String END_PARAM = "end";
 
     private final PhoneBillController phoneBillController = new PhoneBillController();
 
