@@ -100,7 +100,7 @@ public class Project4 {
                         message = client.addPhoneCall(customer, phoneCall);
 
                         if (printOptionFlag) {
-                            System.out.print(phoneCall.toString());
+                            System.out.println(phoneCall.toString());
                         }
                     }
                 }
@@ -112,7 +112,7 @@ public class Project4 {
                 errorMessage = "Encountered an IO error. Here is the root cause - " + ex.getMessage();
             }
 
-            System.err.print(errorMessage);
+            System.err.println(errorMessage);
             System.exit(1);
             return;
         }

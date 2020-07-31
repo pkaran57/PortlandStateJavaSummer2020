@@ -105,7 +105,7 @@ public class Project4IT extends InvokeMainTestCase {
     @Test
     public void test9_getPhoneCallWithinDateRange() {
         // search for user's calls
-        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, "Dave", "02/27/2019" ,"8:56", "am", "02/25/2020", "10:27", "am");
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, SEARCH_OPTION, "Dave", "02/27/2019" ,"8:55", "am", "02/25/2020", "10:27", "am");
         String out = result.getTextWrittenToStandardOut();
         assertEquals("----------------------------------------------------------" + System.lineSeparator() +
                 "Phone Bill for customer 'Dave':" + System.lineSeparator() +
@@ -119,11 +119,24 @@ public class Project4IT extends InvokeMainTestCase {
     }
 
     @Test
-    public void test10_addNewPhoneBillAndPrint() {
-        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, PRINT_OPTION, "Tommie", "503-245-2345", "765-389-1273", "02/27/2020" ,"8:56", "am", "02/27/2020", "10:27", "am");
+    public void test10_getPhoneCallWithinDateRange() {
+        // search for user's calls
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, SEARCH_OPTION, "Dave", "02/27/2019" ,"8:57", "am", "02/25/2020", "10:27", "am");
+        String out = result.getTextWrittenToStandardOut();
+        assertEquals("----------------------------------------------------------" + System.lineSeparator() +
+                "Phone Bill for customer 'Dave':" + System.lineSeparator() +
+                System.lineSeparator() +
+                "No phone calls were found for the phone bill." + System.lineSeparator() +
+                "----------------------------------------------------------", out.strip());
+    }
+
+    @Test
+    public void test11_addNewPhoneBillAndPrint() {
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, PRINT_OPTION, "Tommie Lan", "503-245-2345", "765-389-1273", "02/27/2020" ,"8:56", "am", "02/27/2020", "10:27", "am");
 
         String out = result.getTextWrittenToStandardOut();
 
-        assertEquals("Phone Call added to the phone bill for Tommie", out.strip());
+        assertEquals("Phone call from 503-245-2345 to 765-389-1273 from 2/27/20, 8:56 AM to 2/27/20, 10:27 AM" + System.lineSeparator() +
+                "Phone Call added to the phone bill for Tommie Lan", out.strip());
     }
 }
