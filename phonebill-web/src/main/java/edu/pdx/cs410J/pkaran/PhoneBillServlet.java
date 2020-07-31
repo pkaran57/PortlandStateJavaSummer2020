@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.Objects;
 
 import static edu.pdx.cs410J.pkaran.phonebill.domian.PhoneCall.isTimeStampValid;
 import static edu.pdx.cs410J.pkaran.phonebill.domian.PhoneCall.parseTimeStamp;
@@ -21,7 +22,16 @@ public class PhoneBillServlet extends HttpServlet {
     final static String START_PARAM = "start";
     final static String END_PARAM = "end";
 
-    private final PhoneBillController phoneBillController = new PhoneBillController();
+    private final PhoneBillController phoneBillController;
+
+    public PhoneBillServlet() {
+        this(null);
+    }
+
+    public PhoneBillServlet(PhoneBillController phoneBillController) {
+        this.phoneBillController = Objects.requireNonNullElseGet(phoneBillController, PhoneBillController::new);
+    }
+
 
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException {
@@ -95,7 +105,7 @@ public class PhoneBillServlet extends HttpServlet {
             phoneBillController.addPhoneCall(customer, phoneCall);
         } catch (Exception e) {
             writeMessageToResponse(response, e.getMessage());
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
@@ -136,7 +146,5 @@ public class PhoneBillServlet extends HttpServlet {
         }
 
         pw.flush();
-
-        response.setStatus(HttpServletResponse.SC_OK);
     }
 }
