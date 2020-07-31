@@ -24,10 +24,12 @@ public class TextDumper {
 
         Collection<PhoneCall> phoneCalls = (startTime == null && endTime == null) ? phoneBill.getPhoneCalls() : phoneBill.getPhoneCallsBetween(startTime, endTime);
 
-        if (phoneCalls != null && !phoneCalls.isEmpty()) {
+        if(phoneCalls == null || phoneCalls.isEmpty()) {
+            return null;
+        } else {
             List<String> phoneCallLines = phoneCalls.stream()
-                                                    .map(PhoneCall::getStringRepresentation)
-                                                    .collect(Collectors.toList());
+                    .map(PhoneCall::getStringRepresentation)
+                    .collect(Collectors.toList());
 
             lines.addAll(phoneCallLines);
         }

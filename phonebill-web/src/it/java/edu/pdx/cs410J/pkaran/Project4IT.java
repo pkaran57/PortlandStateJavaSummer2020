@@ -23,7 +23,7 @@ public class Project4IT extends InvokeMainTestCase {
     public void test1_emptyCommandLineArguments() {
         MainMethodResult result = invokeMain( Project4.class );
         assertThat(result.getExitCode(), equalTo(1));
-        assertEquals("Did not find the '-host' option. Please specify it and try again. Check out the README for more info.", result.getTextWrittenToStandardError());
+        assertEquals("Did not find the '-host' option. Please specify it and try again. Check out the README for more info.", result.getTextWrittenToStandardError().strip());
     }
 
     @Test
@@ -31,7 +31,7 @@ public class Project4IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain( Project4.class, PORT_OPTION, PORT, HOST_OPTION, HOSTNAME );
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
         String out = result.getTextWrittenToStandardError();
-        assertEquals("Expected a total of 1 or 9 arguments of the form: [customer callerNumber calleeNumber start-date start-time am/pm end-date end-time am/pm] (where only customer should be specified if only 1 arg is present) but got the following 0 : []", out);
+        assertEquals("Expected a total of 1 or 9 arguments of the form: [customer callerNumber calleeNumber start-date start-time am/pm end-date end-time am/pm] (where only customer should be specified if only 1 arg is present) but got the following 0 : []", out.strip());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
         String out = result.getTextWrittenToStandardError();
 
-        assertEquals("Got an HTTP Status Code of 404 with the following response from server: Did not find any phone calls for customer Dave", out);
+        assertEquals("Got an HTTP Status Code of 404 with the following response from server: Did not find any phone calls for customer Dave", out.strip());
     }
 
 
@@ -121,13 +121,9 @@ public class Project4IT extends InvokeMainTestCase {
     @Test
     public void test10_getPhoneCallWithinDateRange() {
         // search for user's calls
-        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, SEARCH_OPTION, "Dave", "02/27/2019" ,"8:57", "am", "02/25/2020", "10:27", "am");
-        String out = result.getTextWrittenToStandardOut();
-        assertEquals("----------------------------------------------------------" + System.lineSeparator() +
-                "Phone Bill for customer 'Dave':" + System.lineSeparator() +
-                System.lineSeparator() +
-                "No phone calls were found for the phone bill." + System.lineSeparator() +
-                "----------------------------------------------------------", out.strip());
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, SEARCH_OPTION, "Dave", "02/27/2019" ,"8:57", "am", "02/28/2019", "10:27", "am");
+        String out = result.getTextWrittenToStandardError();
+        assertEquals("Got an HTTP Status Code of 404 with the following response from server: Did not find any phone calls for customer Dave", out.strip());
     }
 
     @Test

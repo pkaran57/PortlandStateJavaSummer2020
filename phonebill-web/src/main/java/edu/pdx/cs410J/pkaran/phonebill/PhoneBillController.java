@@ -12,6 +12,7 @@ public class PhoneBillController {
 
     public String getPhoneCalls(String customerName, Date startDate, Date endDate) {
         Optional<PhoneBill> phoneBillOptional = getPhoneBill(customerName);
+
         return phoneBillOptional.isPresent() ? TextDumper.dump(phoneBillOptional.get(), startDate, endDate) : null;
     }
 
