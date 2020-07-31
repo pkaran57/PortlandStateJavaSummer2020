@@ -1,15 +1,10 @@
 package edu.pdx.cs410J.pkaran.phonebill.domian.text;
 
-import edu.pdx.cs410J.AbstractPhoneBill;
-import edu.pdx.cs410J.ParserException;
-import edu.pdx.cs410J.PhoneBillParser;
 import edu.pdx.cs410J.pkaran.phonebill.domian.PhoneBill;
 import edu.pdx.cs410J.pkaran.phonebill.domian.PhoneCall;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -17,40 +12,19 @@ import java.util.stream.Collectors;
 /**
  * Generates PhoneBill based on its text representation
  */
-public class TextParser implements PhoneBillParser {
-
-    private final Path filePath;
-
-    /**
-     * Path of file containing text representation of PhoneBill
-     * @param filePath
-     */
-    public TextParser(Path filePath) {
-        this.filePath = filePath;
-    }
+public class TextParser {
 
     /**
      * Generates PhoneBill based on its text representation
      * @return a PhoneBill object based on its text representation
-     * @throws ParserException
      */
-    @Override
-    public AbstractPhoneBill parse() throws ParserException {
-        String absoluteFilePath = filePath.toAbsolutePath().toString();
-
-        List<String> lines;
-        try {
-            lines = Files.readAllLines(filePath);
-        } catch (IOException e) {
-            throw new IllegalStateException(String.format("Unable to read lines from file (located at %s). Please ensure that the path to the file and file name is correct.",
-                                                            absoluteFilePath),
-                                            e);
-        }
+    public static PhoneBill parse(String phoneCallTextDumperString) {
+        List<String> lines = Arrays.asList(phoneCallTextDumperString.split("\n"));
 
         lines = lines.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
         if(lines.isEmpty() || allLinesBlank(lines)) {
-            throw new IllegalStateException("Did not find any data in file located at " + absoluteFilePath);
+            throw new IllegalStateException("All lines in response from servre are blank");
         }
 
         String customerName = null;
@@ -61,7 +35,7 @@ public class TextParser implements PhoneBillParser {
 
             if(i == 0) {
                 if (line.isBlank()) {
-                    throw new IllegalStateException(String.format("First line (containing customer name) in file %s cannot be blank", absoluteFilePath));
+                    throw new IllegalStateException("First line (containing customer name) cannot be blank");
                 }
                 customerName = line;
                 continue;

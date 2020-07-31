@@ -20,14 +20,14 @@ public class Project4IT extends InvokeMainTestCase {
     private static final String PORT = System.getProperty("http.port", "8080");
 
     @Test
-    public void emptyCommandLineArguments() {
+    public void test1_emptyCommandLineArguments() {
         MainMethodResult result = invokeMain( Project4.class );
         assertThat(result.getExitCode(), equalTo(1));
         assertEquals("Did not find the '-host' option. Please specify it and try again. Check out the README for more info.", result.getTextWrittenToStandardError());
     }
 
     @Test
-    public void noProgramArguments() {
+    public void test2_noProgramArguments() {
         MainMethodResult result = invokeMain( Project4.class, PORT_OPTION, PORT, HOST_OPTION, HOSTNAME );
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
         String out = result.getTextWrittenToStandardError();
@@ -35,13 +35,13 @@ public class Project4IT extends InvokeMainTestCase {
     }
 
     @Test
-    public void readMe() {
+    public void test3_readMe() {
         MainMethodResult result = invokeMain( Project4.class, READ_ME_OPTION);
         assertThat(result.getTextWrittenToStandardOut(), containsString("Student name: Karan Patel, CS410J Project 4: A REST-ful Phone Bill Web Service"));
     }
 
     @Test
-    public void noBillFound() {
+    public void test4_noBillFound() {
         MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, "Dave");
 
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
@@ -50,22 +50,80 @@ public class Project4IT extends InvokeMainTestCase {
         assertEquals("Got an HTTP Status Code of 404 with the following response from server: Did not find any phone calls for customer Dave", out);
     }
 
+
     @Test
-    public void test4AddDefinition() {
-        String word = "WORD";
-        String definition = "DEFINITION";
+    public void test5_addNewPhoneBill() {
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, "Dave", "503-245-2345", "765-389-1273", "02/27/2020" ,"8:56", "am", "02/27/2020", "10:27", "am");
 
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, word, definition );
-        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
         String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.definedWordAs(word, definition)));
 
-        result = invokeMain( Project4.class, HOSTNAME, PORT, word );
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.formatDictionaryEntry(word, definition)));
+        assertEquals("Phone Call added to the phone bill for Dave", out.strip());
+    }
 
-        result = invokeMain( Project4.class, HOSTNAME, PORT );
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.formatDictionaryEntry(word, definition)));
+    @Test
+    public void test6_getUserWith1Call() {
+        // search for user's calls
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, "Dave");
+        String out = result.getTextWrittenToStandardOut();
+        assertEquals("----------------------------------------------------------" + System.lineSeparator() +
+                "Phone Bill for customer 'Dave':" + System.lineSeparator() +
+                 System.lineSeparator() +
+                "Following are the phone calls in the phone bill:" + System.lineSeparator() +
+                 System.lineSeparator() +
+                "Caller         Callee         Start Time             End Time               Duration (in seconds)" + System.lineSeparator() +
+                "503-245-2345   765-389-1273   2/27/20, 8:56 AM       2/27/20, 10:27 AM      5460           " + System.lineSeparator() +
+                 System.lineSeparator() +
+                "----------------------------------------------------------", out.strip());
+    }
+
+    @Test
+    public void test7_addPhoneCallToExistingPhoneBill() {
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, "Dave", "503-245-3333", "765-389-4444", "02/27/2019" ,"8:56", "am", "02/27/2019", "10:27", "am");
+
+        String out = result.getTextWrittenToStandardOut();
+
+        assertEquals("Phone Call added to the phone bill for Dave", out.strip());
+    }
+
+    @Test
+    public void test8_getUserWithMultipleCalls() {
+        // search for user's calls
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, "Dave");
+        String out = result.getTextWrittenToStandardOut();
+        assertEquals("----------------------------------------------------------" + System.lineSeparator() +
+                "Phone Bill for customer 'Dave':" + System.lineSeparator() +
+                System.lineSeparator() +
+                "Following are the phone calls in the phone bill:" + System.lineSeparator() +
+                System.lineSeparator() +
+                "Caller         Callee         Start Time             End Time               Duration (in seconds)" + System.lineSeparator() +
+                "503-245-3333   765-389-4444   2/27/19, 8:56 AM       2/27/19, 10:27 AM      5460           " + System.lineSeparator() +
+                "503-245-2345   765-389-1273   2/27/20, 8:56 AM       2/27/20, 10:27 AM      5460           " + System.lineSeparator() +
+                System.lineSeparator() +
+                "----------------------------------------------------------", out.strip());
+    }
+
+    @Test
+    public void test9_getPhoneCallWithinDateRange() {
+        // search for user's calls
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, "Dave", "02/27/2019" ,"8:56", "am", "02/25/2020", "10:27", "am");
+        String out = result.getTextWrittenToStandardOut();
+        assertEquals("----------------------------------------------------------" + System.lineSeparator() +
+                "Phone Bill for customer 'Dave':" + System.lineSeparator() +
+                System.lineSeparator() +
+                "Following are the phone calls in the phone bill:" + System.lineSeparator() +
+                System.lineSeparator() +
+                "Caller         Callee         Start Time             End Time               Duration (in seconds)" + System.lineSeparator() +
+                "503-245-3333   765-389-4444   2/27/19, 8:56 AM       2/27/19, 10:27 AM      5460           " + System.lineSeparator() +
+                System.lineSeparator() +
+                "----------------------------------------------------------", out.strip());
+    }
+
+    @Test
+    public void test10_addNewPhoneBillAndPrint() {
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, PRINT_OPTION, "Tommie", "503-245-2345", "765-389-1273", "02/27/2020" ,"8:56", "am", "02/27/2020", "10:27", "am");
+
+        String out = result.getTextWrittenToStandardOut();
+
+        assertEquals("Phone Call added to the phone bill for Tommie", out.strip());
     }
 }

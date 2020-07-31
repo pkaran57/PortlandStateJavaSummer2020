@@ -90,8 +90,8 @@ public class PhoneBillServletTest {
 
         servlet.doGet(request, response);
 
-        verify(pw).println("Jake" + System.lineSeparator() +
-                "555-777-5556|666-888-6667|10/15/2019 8:39 AM|1/16/2020 1:33 PM" + System.lineSeparator() +
+        verify(pw).println("Jake\n" +
+                "555-777-5556|666-888-6667|10/15/2019 8:39 AM|1/16/2020 1:33 PM\n" +
                 "555-555-5556|666-666-6667|1/15/2020 8:39 AM|2/1/2020 1:3 PM");
         verify(response).setStatus(HttpServletResponse.SC_OK);
 
@@ -101,14 +101,14 @@ public class PhoneBillServletTest {
 
         when(request.getParameter(CUSTOMER_PARAM)).thenReturn("Jake");
         when(request.getParameter(START_PARAM)).thenReturn("10/14/2018 8:39 am");
-        when(request.getParameter(END_PARAM)).thenReturn("1/21/2020 4:45 am");
+        when(request.getParameter(END_PARAM)).thenReturn("1/14/2020 4:45 am");
 
         pw = mock(PrintWriter.class);
         when(response.getWriter()).thenReturn(pw);
 
         servlet.doGet(request, response);
 
-        verify(pw).println("Jake" + System.lineSeparator() +
+        verify(pw).println("Jake\n"+
                 "555-777-5556|666-888-6667|10/15/2019 8:39 AM|1/16/2020 1:33 PM");
         verify(response).setStatus(HttpServletResponse.SC_OK);
     }
@@ -164,7 +164,7 @@ public class PhoneBillServletTest {
 
         servlet.doGet(request, response);
 
-        verify(pw).println("Jane" + System.lineSeparator() +
+        verify(pw).println("Jane\n" +
                 "555-777-5556|666-888-6667|10/15/2019 8:39 AM|1/16/2020 1:33 PM");
         verify(response).setStatus(HttpServletResponse.SC_OK);
 
@@ -179,7 +179,7 @@ public class PhoneBillServletTest {
 
         servlet.doGet(request, response);
 
-        verify(pw).println("Jake" + System.lineSeparator() +
+        verify(pw).println("Jake\n" +
                 "555-555-5556|666-666-6667|1/15/2020 8:39 AM|2/1/2020 1:3 PM");
         verify(response).setStatus(HttpServletResponse.SC_OK);
     }

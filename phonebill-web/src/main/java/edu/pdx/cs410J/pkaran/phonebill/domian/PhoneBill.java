@@ -52,8 +52,8 @@ public class PhoneBill<T extends PhoneCall> extends AbstractPhoneBill<T> {
     public Collection<T> getPhoneCallsBetween(Date startDateTime, Date endDateTime) {
         Collections.sort(this.phoneCalls);
 
-        List<T> callsInBetweenList = phoneCalls.stream().filter(phoneCall -> phoneCall.getStartTime().after(startDateTime))
-                .filter(phoneCall -> phoneCall.getEndTime().before(endDateTime))
+        List<T> callsInBetweenList = phoneCalls.stream()
+                .filter(phoneCall -> phoneCall.getStartTime().after(startDateTime) && phoneCall.getStartTime().before(endDateTime))
                 .collect(Collectors.toList());
 
         Collections.sort(callsInBetweenList);

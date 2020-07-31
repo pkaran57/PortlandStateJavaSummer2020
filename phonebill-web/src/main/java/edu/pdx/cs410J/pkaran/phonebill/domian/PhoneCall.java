@@ -25,6 +25,9 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable {
     private final Date startTime;
     private final Date endTime;
 
+    private final String originalStartTimeString;
+    private final String originalEndTimeString;
+
     /**
      * All args constructor which performs validation for all of the parameters. Exception can be thrown if any of the parameters are invalid.
      *
@@ -47,12 +50,14 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable {
             throw new IllegalArgumentException(String.format("Callee phone number is invalid. Phone numbers should have the form nnn-nnn-nnnn where n is a number 0-9 but got %s", callee));
         }
 
+        originalStartTimeString = startTime;
         if(isTimeStampValid(startTime)) {
             this.startTime = parseTimeStamp(startTime);
         } else {
             throw new IllegalArgumentException(String.format("Start time is invalid. It should be in the following format: 'mm/dd/yyyy hh:mm am/pm' but got %s", startTime));
         }
 
+        originalEndTimeString = endTime;
         if(isTimeStampValid(endTime)) {
             this.endTime = parseTimeStamp(endTime);
         } else {
@@ -123,6 +128,14 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable {
     @Override
     public Date getEndTime() {
         return endTime;
+    }
+
+    public String getOriginalStartTimeString() {
+        return originalStartTimeString;
+    }
+
+    public String getOriginalEndTimeString() {
+        return originalEndTimeString;
     }
 
     /**

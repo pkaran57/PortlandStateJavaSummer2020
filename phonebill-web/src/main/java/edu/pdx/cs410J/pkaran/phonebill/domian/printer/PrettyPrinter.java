@@ -1,12 +1,8 @@
 package edu.pdx.cs410J.pkaran.phonebill.domian.printer;
 
-import edu.pdx.cs410J.PhoneBillDumper;
 import edu.pdx.cs410J.pkaran.phonebill.domian.PhoneBill;
 import edu.pdx.cs410J.pkaran.phonebill.domian.PhoneCall;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,23 +10,15 @@ import java.util.List;
  * Pretty printer for PhoneBill
  * @param <T>
  */
-public class PrettyPrinter<T extends PhoneBill<PhoneCall>> implements PhoneBillDumper<T> {
-
-    private final File outputFile;
-
-    public PrettyPrinter(File outputFile) {
-        this.outputFile = outputFile;
-    }
+public class PrettyPrinter<T extends PhoneBill<PhoneCall>> {
 
     public static final String FORMAT_STRING = "%-15s%-15s%-23s%-23s%-15s" + System.lineSeparator();
 
     /**
      * Dump pretty print of phoneBill into either a file or std out
      * @param phoneBill
-     * @throws IOException
      */
-    @Override
-    public void dump(T phoneBill) throws IOException {
+    public String dump(T phoneBill) {
         StringBuffer stringBuffer = new StringBuffer();
 
         stringBuffer.append("----------------------------------------------------------" + System.lineSeparator());
@@ -52,11 +40,7 @@ public class PrettyPrinter<T extends PhoneBill<PhoneCall>> implements PhoneBillD
 
         stringBuffer.append(System.lineSeparator() + "----------------------------------------------------------");
 
-        if (outputFile == null) {
-            System.out.println(stringBuffer.toString());
-        } else {
-            Files.write(outputFile.toPath(), stringBuffer.toString().getBytes());
-        }
+        return stringBuffer.toString();
     }
 
     private String getFormattedHeader() {

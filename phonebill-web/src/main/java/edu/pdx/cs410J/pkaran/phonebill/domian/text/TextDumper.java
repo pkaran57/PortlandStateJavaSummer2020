@@ -32,6 +32,6 @@ public class TextDumper {
             lines.addAll(phoneCallLines);
         }
 
-        return String.join(System.lineSeparator(), lines);
+        return String.join("\n", lines);
     }
 }

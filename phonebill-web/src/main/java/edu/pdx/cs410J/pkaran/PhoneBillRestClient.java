@@ -1,7 +1,10 @@
 package edu.pdx.cs410J.pkaran;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.pkaran.phonebill.domian.PhoneBill;
 import edu.pdx.cs410J.pkaran.phonebill.domian.PhoneCall;
+import edu.pdx.cs410J.pkaran.phonebill.domian.printer.PrettyPrinter;
+import edu.pdx.cs410J.pkaran.phonebill.domian.text.TextParser;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
@@ -36,21 +39,28 @@ public class PhoneBillRestClient extends HttpRequestHelper
     public String searchPhoneCalls(String customer) throws IOException {
         Response response = get(this.url, Map.of(CUSTOMER_PARAM, customer));
         throwExceptionIfNotOkayHttpStatus(response);
-        return response.getContent();
+        return prettyPrintPhoneCall(response.getContent());
     }
 
     public String searchPhoneCalls(String customer, String start, String end) throws IOException {
         Response response = get(this.url, Map.of(CUSTOMER_PARAM, customer, START_PARAM, start, END_PARAM, end));
         throwExceptionIfNotOkayHttpStatus(response);
-        return response.getContent();
+        return prettyPrintPhoneCall(response.getContent());
+    }
+
+    private String prettyPrintPhoneCall(String phoneCallTextDumperString) {
+        PhoneBill phoneBill = TextParser.parse(phoneCallTextDumperString);
+
+        PrettyPrinter prettyPrinter = new PrettyPrinter();
+        return prettyPrinter.dump(phoneBill);
     }
 
     public String addPhoneCall(String customer, PhoneCall phoneCall) throws IOException {
         Map<String, String> params = Map.of(CUSTOMER_PARAM, customer,
                                             CALLER_NUM_PARAM, phoneCall.getCaller(),
                                             CALLEE_NUM_PARAM, phoneCall.getCallee(),
-                                            START_PARAM, phoneCall.getStartTimeString(),
-                                            END_PARAM, phoneCall.getEndTimeString());
+                                            START_PARAM, phoneCall.getOriginalStartTimeString(),
+                                            END_PARAM, phoneCall.getOriginalEndTimeString());
 
         Response response = postToMyURL(params);
         throwExceptionIfNotOkayHttpStatus(response);
