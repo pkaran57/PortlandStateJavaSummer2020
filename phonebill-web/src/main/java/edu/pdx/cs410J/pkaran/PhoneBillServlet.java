@@ -8,34 +8,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
-/**
- * This servlet ultimately provides a REST API for working with an
- * <code>PhoneBill</code>.  However, in its current state, it is an example
- * of how to use HTTP and Java servlets to store simple dictionary of words
- * and their definitions.
- */
-public class PhoneBillServlet extends HttpServlet
-{
-    static final String WORD_PARAMETER = "word";
-    static final String DEFINITION_PARAMETER = "definition";
+public class PhoneBillServlet extends HttpServlet {
 
-    private final Map<String, String> dictionary = new HashMap<>();
+    private final static String CUSTOMER_PARAM = "customer";
+    private final static String CALLER_NUM_PARAM = "callerNumber";
+    private final static String CALLEE_NUM_PARAM = "calleeNumber";
+    private final static String START_PARAM = "start";
+    private final static String END_PARAM = "end";
 
-    /**
-     * Handles an HTTP GET request from a client by writing the definition of the
-     * word specified in the "word" HTTP parameter to the HTTP response.  If the
-     * "word" parameter is not specified, all of the entries in the dictionary
-     * are written to the HTTP response.
-     */
+
+
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
-    {
-        response.setContentType( "text/plain" );
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
 
-        String word = getParameter( WORD_PARAMETER, request );
+        String customer = getParameter(CUSTOMER_PARAM, request);
+        String callerNumber = getParameter(CALLER_NUM_PARAM, request);
+        String calleeNumber = getParameter(CALLEE_NUM_PARAM, request);
+        String start = getParameter(START_PARAM, request);
+        String end = getParameter(END_PARAM, request);
+
+
+
+        response.setContentType( "text/plain" );
         if (word != null) {
             writeDefinition(word, response);
 
@@ -44,11 +39,6 @@ public class PhoneBillServlet extends HttpServlet
         }
     }
 
-    /**
-     * Handles an HTTP POST request by storing the dictionary entry for the
-     * "word" and "definition" request parameters.  It writes the dictionary
-     * entry to the HTTP response.
-     */
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
@@ -73,25 +63,6 @@ public class PhoneBillServlet extends HttpServlet
         pw.flush();
 
         response.setStatus( HttpServletResponse.SC_OK);
-    }
-
-    /**
-     * Handles an HTTP DELETE request by removing all dictionary entries.  This
-     * behavior is exposed for testing purposes only.  It's probably not
-     * something that you'd want a real application to expose.
-     */
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/plain");
-
-        this.dictionary.clear();
-
-        PrintWriter pw = response.getWriter();
-        pw.println(Messages.allDictionaryEntriesDeleted());
-        pw.flush();
-
-        response.setStatus(HttpServletResponse.SC_OK);
-
     }
 
     /**
