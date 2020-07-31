@@ -76,14 +76,32 @@ public class Project4 {
                 if(programArguments.size() == 1) {
                     message = client.searchPhoneCalls(customer);
                 } else {
-                    PhoneCall phoneCall = createPhoneCall(programArguments);
-
                     if (searchOptionFlag) {
-                        message = client.searchPhoneCalls(programArguments.get(1),
-                                phoneCall.getStartTimeString(),
-                                phoneCall.getEndTimeString());
+                        String start;
+                        String end;
+
+                        if (programArguments.size() == 7) {
+                            start = programArguments.get(1) + " " + programArguments.get(2) + " " + programArguments.get(3);
+                            end = programArguments.get(4) + " " + programArguments.get(5) + " " + programArguments.get(6);
+                        } else {
+                            start = programArguments.get(3) + " " + programArguments.get(4) + " " + programArguments.get(5);
+                            end = programArguments.get(6) + " " + programArguments.get(7) + " " + programArguments.get(8);
+                        }
+
+                        message = client.searchPhoneCalls(customer, start, end);
                     } else {
+                        PhoneCall phoneCall = PhoneCall.PhoneCallBuilder.aPhoneCall()
+                                .withCaller(programArguments.get(1))
+                                .withCallee(programArguments.get(2))
+                                .withStartTime(programArguments.get(3) + " " + programArguments.get(4) + " " + programArguments.get(5))
+                                .withEndTime(programArguments.get(6) + " " + programArguments.get(7) + " " + programArguments.get(8))
+                                .build();
+
                         message = client.addPhoneCall(customer, phoneCall);
+
+                        if (printOptionFlag) {
+                            System.out.print(phoneCall.toString());
+                        }
                     }
                 }
             }
@@ -91,7 +109,7 @@ public class Project4 {
             String errorMessage = ex.getMessage();
 
             if(ex instanceof IOException) {
-                errorMessage = "Encountered an error trying to connect. Here is the root cause - " + ex.getMessage();
+                errorMessage = "Encountered an IO error. Here is the root cause - " + ex.getMessage();
             }
 
             System.err.print(errorMessage);
@@ -101,27 +119,6 @@ public class Project4 {
 
         System.out.println(message);
         System.exit(0);
-    }
-
-    /**
-     * Create a phone call based on program options passed on via command line arguments
-     * @param programArguments arguments passed on to the program
-     * @return a PhoneCall object created based on information in programArguments
-     */
-    private static PhoneCall createPhoneCall(List<String> programArguments) {
-        if (programArguments.size() == 7) {
-            return PhoneCall.PhoneCallBuilder.aPhoneCall()
-                    .withStartTime(programArguments.get(1) + " " + programArguments.get(2) + " " + programArguments.get(3))
-                    .withEndTime(programArguments.get(4) + " " + programArguments.get(5) + " " + programArguments.get(6))
-                    .build();
-        } else {
-            return PhoneCall.PhoneCallBuilder.aPhoneCall()
-                    .withCaller(programArguments.get(1))
-                    .withCallee(programArguments.get(2))
-                    .withStartTime(programArguments.get(3) + " " + programArguments.get(4) + " " + programArguments.get(5))
-                    .withEndTime(programArguments.get(6) + " " + programArguments.get(7) + " " + programArguments.get(8))
-                    .build();
-        }
     }
 
     /**

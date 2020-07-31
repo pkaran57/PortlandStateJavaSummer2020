@@ -1,8 +1,6 @@
 package edu.pdx.cs410J.pkaran;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
-import edu.pdx.cs410J.UncaughtExceptionInMain;
-import edu.pdx.cs410J.pkaran.PhoneBillRestClient.PhoneBillRestException;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -42,13 +40,14 @@ public class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardOut(), containsString("Student name: Karan Patel, CS410J Project 4: A REST-ful Phone Bill Web Service"));
     }
 
-    @Test(expected = PhoneBillRestException.class)
-    public void noBillFound() throws Throwable {
-        try {
-            invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, "Dave");
-        } catch (UncaughtExceptionInMain ex) {
-            throw ex.getCause();
-        }
+    @Test
+    public void noBillFound() {
+        MainMethodResult result = invokeMain(Project4.class, HOST_OPTION, HOSTNAME, PORT_OPTION, PORT, "Dave");
+
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+
+        assertEquals("Got an HTTP Status Code of 404 with the following response from server: Did not find any phone calls for customer Dave", out);
     }
 
     @Test
